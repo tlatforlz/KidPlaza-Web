@@ -126,7 +126,7 @@
                                     <input style="border: none;padding: 14px !important; margin-top: 15px;" class="o-buttons b-big blue" type="submit" id="btSubmit" value="Thanh toán đảm bảo">
                                 </p>
                                 <p style="text-align:center; margin-top: 5px;">
-                                    <a style="text-decoration:underline; color:#666;" onclick="oTracking.cancelInputCard();" href="">Hủy giao dịch </a>
+                                    <a style="text-decoration:underline; color:#666;" href="HuyGiaoDich">Hủy giao dịch </a>
                                 </p>
                             </form>
                         </div>

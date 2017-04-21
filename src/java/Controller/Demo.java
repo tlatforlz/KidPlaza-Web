@@ -5,8 +5,8 @@
  */
 package Controller;
 
-import DAO.CHITIETDATHANG_DAO;
-import DAO.DONDATHANG_DAO;
+import DAO.KHACHHANG_DAO;
+import DTO.KHACHHANG;
 import java.sql.SQLException;
 import java.text.ParseException;
 
@@ -17,11 +17,12 @@ import java.text.ParseException;
 public class Demo {
 
     public static void main(String[] args) throws SQLException, ParseException {
-        CHITIETDATHANG_DAO ct_dp = new CHITIETDATHANG_DAO();
-        DONDATHANG_DAO dh_dp = new DONDATHANG_DAO();
-        boolean check = dh_dp.checkDonHang("KH1-22");
-        if(check == true){
-            System.out.println("Don hang da ton tai");
-        }
+        KHACHHANG_DAO  kh_dp = new KHACHHANG_DAO();
+        KHACHHANG kh = kh_dp.getKhachHang("tranleanhthe@gmail.com");
+        kh.Show();
+        kh.setDiaChi("Bla bla");
+        kh_dp.updateAddress(kh);
+        kh.Show();
+        
     }
 }

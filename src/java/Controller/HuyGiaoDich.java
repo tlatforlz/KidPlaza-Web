@@ -5,12 +5,8 @@
  */
 package Controller;
 
-import DAO.KHACHHANG_DAO;
-import DTO.KHACHHANG;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tranl
  */
-public class CapNhapDiaChiTaiKhoan extends HttpServlet {
+public class HuyGiaoDich extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,33 +29,10 @@ public class CapNhapDiaChiTaiKhoan extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        String telephone = request.getParameter("telephone");
-        String street = request.getParameter("street");
-        String region_id = request.getParameter("region_id");
-        
-        firstname = new String(firstname.getBytes("ISO-8859-1"), "UTF-8");
-        lastname = new String(lastname.getBytes("ISO-8859-1"), "UTF-8");
-        street = new String(street.getBytes("ISO-8859-1"), "UTF-8");
-        region_id = new String(region_id.getBytes("ISO-8859-1"), "UTF-8");
-        String Email = (String)request.getSession().getAttribute("Email");
-        KHACHHANG_DAO kh_dp = new KHACHHANG_DAO();
-        KHACHHANG kh = kh_dp.getKhachHang(Email);
-        
-        kh.setDiaChi(street);
-        kh.setTenKhachHang(firstname);
-        kh.setHoKhachHang(lastname);
-        kh.setSoDienThoai(telephone);
-        kh.setTinh(region_id);
-        
-        kh_dp.updateAddress(kh);
-        
-        request.setAttribute("KhachHang", kh);
-        RequestDispatcher rd = request.getRequestDispatcher("ChiTietKhachHang.jsp");
+        request.setAttribute("ketqua", "fail");
+        RequestDispatcher rd = request.getRequestDispatcher("TrangThanhToan.jsp");
         rd.forward(request, response);
     }
 
@@ -75,11 +48,7 @@ public class CapNhapDiaChiTaiKhoan extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(CapNhapDiaChiTaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -93,11 +62,7 @@ public class CapNhapDiaChiTaiKhoan extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(CapNhapDiaChiTaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

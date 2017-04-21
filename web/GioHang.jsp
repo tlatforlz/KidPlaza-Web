@@ -98,13 +98,16 @@
                                             <tfoot>
                                                 <tr>
                                                     <td colspan="50" class="a-right"> 
-                                                        <button type="submit" name="update_cart_action" value="update_qty" title="Cập nhật giỏ hàng" class="btn btn-kid btn-update pull-left">
-                                                            <i class="glyphicon glyphicon-refresh"></i>
-                                                            Cập nhật giỏ hàng</button>&nbsp;
-                                                        <button type="button" title="Tiếp tục mua hàng" class="btn-ribbon btn-continue" onclick="setLocation('http://localhost:9090/DemoThuongMaiDienTu/TrangChu')">
+                                                        <script>
+                                                            $(document).ready(function(){
+                                                                $("#tieptuc").on('click', function(){
+                                                                    window.location.href="TrangChu";
+                                                                })
+                                                            })
+                                                        </script>
+                                                        <button id="tieptuc" type="button" title="Tiếp tục mua hàng" class="btn-ribbon btn-continue">
                                                             <span><span>Tiếp tục mua hàng</span></span>
-                                                        </button>&nbsp; 
-                                                        <button type="submit" name="update_cart_action" value="empty_cart" title="Xóa giỏ hàng" class="btn-ribbon btn-clear" id="empty_cart_button"><span><span>Xóa giỏ hàng</span></span></button>&nbsp;
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             </tfoot>
@@ -115,35 +118,111 @@
                                                     //   String email = (String) request.getSession().getAttribute("Email");
                                                     KHACHHANG kh = kh_dao.getKhachHang(email);
                                                     String MaKhach = kh.getMaKhachHang();
+                                                    int count = 0;
                                                     ArrayList<GIOHANG> list = gh_dao.getList(MaKhach);
                                                     for (GIOHANG gh : list) {
 
                                                         SANPHAM_DAO sp_dao = new SANPHAM_DAO();
                                                         SANPHAM sp = sp_dao.getSanPham(gh.getMaSanPham());
                                                 %>
-                                                <tr>
-                                                    <td class="a-center">
-                                                        <a href="ChiTietSanPham?MaSanPham=<%=sp.getMaSanPham()%>" title="<%=sp.getTenSanPham()%>" class="product-image"><img src="<%=sp.getHinhAnh()[0]%>" width="75" height="75" alt="<%=sp.getTenSanPham()%>"></a>
-                                                    </td>
-                                                    <td class="text">
-                                                        <p class="product-name"> <a href="ChiTietSanPham?MaSanPham=<%=sp.getMaSanPham()%>"> <%=sp.getTenSanPham()%></a></p>
-                                                    </td>
+                                            <input style="display:none"value="<%=count%>" id="count" name="count" >
+                                            <tr>
+                                                <td class="a-center">
+                                                    <a href="ChiTietSanPham?MaSanPham=<%=sp.getMaSanPham()%>" title="<%=sp.getTenSanPham()%>" class="product-image"><img src="<%=sp.getHinhAnh()[0]%>" width="75" height="75" alt="<%=sp.getTenSanPham()%>"></a>
+                                                </td>
+                                                <td class="text">
+                                                    <p class="product-name"> <a href="ChiTietSanPham?MaSanPham=<%=sp.getMaSanPham()%>"> <%=sp.getTenSanPham()%></a></p>
+                                                </td>
 
 
-                                                    <td class="a-right"> <span class="cart-price"> <span class="price"><%=sp.getDonGiaString()%>&nbsp;₫</span> </span>
-                                                    </td>
-                                                    <td class="a-center "> <input style="background: #fff; margin-bottom: 20px" name="cart[405685][qty]" value="<%=gh.getSoLuong()%>" size="4" title="Số lượng" class="form-control qty" maxlength="12"></td>
-                                                        <%
-                                                            int DonGia = sp.getDonGia() * gh.getSoLuong();
-                                                            String Tong = sp.convertToVND(DonGia);
-                                                        %>
-                                                    <td class="a-right"> <span class="cart-price"> <span class="price"><%=Tong%>&nbsp;₫</span> </span>
-                                                    </td>
-                                                    <td class="a-center right">
-                                                        <a href="XoaSanPham?MaSanPham=<%=gh.getMaSanPham()%>" title="Xóa sản phẩm" class="btn-remove"> <i class="glyphicon glyphicon-remove"></i> </a>
-                                                    </td>
-                                                </tr>
-                                                <%}%>
+                                                <td class="a-right"> <span class="cart-price"> <span class="price"><%=sp.getDonGiaString()%>&nbsp;₫</span> </span>
+                                                </td>
+                                            <script>
+                                                $(document).ready(function () {
+                                                    var number = $("#soluong<%=count%>").val();
+                                                    $("#sp-down<%=count%>").on('click', function () {
+                                                        console.log("down");
+                                                        console.log(number);
+                                                        if (number === 1) {
+                                                            $("#soluong<%=count%>").val(number);
+                                                        } else {
+                                                            number = parseInt(number, 10) - 1;
+                                                            $("#soluong<%=count%>").val(number);
+                                                        }
+                                                        var sotien = $("#giatien<%=count%>").val();
+                                                        var toal = number * (parseInt(sotien));
+                                                        console.log(toal);
+                                                        var re = "";
+                                                        var count = 0;
+                                                        var toal_s = toal.toString();
+                                                        for (var i = toal_s.length - 1; i >= 0; i--) {
+                                                            count++;
+                                                            re = re + toal_s[i];
+                                                            if (count % 3 === 0 && i !== 0) {
+                                                                re += ".";
+                                                            }
+                                                        }
+                                                        console.log(re);
+                                                        var gia = "";
+                                                        for (var i = re.length - 1; i >= 0; i--) {
+                                                            gia += re[i];
+                                                        }
+                                                        $("#price<%=count%>").text(gia + "₫");
+                                                        window.location.href = "SoLuongGioHang?MaSanPham=<%=sp.getMaSanPham()%>&SoLuong=" + number;
+                                                    });
+
+                                                    $("#sp-up<%=count%>").on('click', function () {
+                                                        console.log("up");
+                                                        console.log(number);
+                                                        if (number === 99) {
+                                                            $("#soluong<%=count%>").val(number);
+                                                        } else {
+                                                            number = parseInt(number, 10) + 1;
+                                                            $("#soluong<%=count%>").val(number);
+                                                        }
+                                                        var sotien = $("#giatien<%=count%>").val();
+                                                        var toal = number * (parseInt(sotien));
+                                                        console.log(toal);
+                                                        var re = "";
+                                                        var count = 0;
+                                                        var toal_s = toal.toString();
+                                                        for (var i = toal_s.length - 1; i >= 0; i--) {
+                                                            count++;
+                                                            re = re + toal_s[i];
+                                                            if (count % 3 === 0 && i != 0) {
+                                                                re += ".";
+                                                            }
+                                                        }
+                                                        var gia = "";
+                                                        for (var i = re.length - 1; i >= 0; i--) {
+                                                            gia += re[i];
+                                                        }
+                                                        $("#price<%=count%>").text(gia + "₫");
+                                                        window.location.href = "SoLuongGioHang?MaSanPham=<%=sp.getMaSanPham()%>&SoLuong=" + number;
+                                                    });
+
+                                                });
+                                            </script>
+                                            <input style="display:none" id="giatien<%=count%>"value="<%=sp.getDonGia()%>">
+                                            <td class="a-center ">
+                                                <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                        <button id="sp-down<%=count%>" class="btn btn-info btn-qty" type="button">-</button></span>
+                                                    <input id="soluong<%=count%>" style="background: #fff" readonly="" name="" value="<%=gh.getSoLuong()%>" size="4" title="Số lượng" class="form-control qty a-center"
+                                                           maxlength="12"><span class="input-group-btn">
+                                                        <button id="sp-up<%=count%>" class="btn btn-info btn-qty" type="button">+</button>
+                                                    </span>
+                                                </div>                           
+                                            </td>
+
+                                            <td class="a-right"> <span class="cart-price"> <span id="price<%=count%>" class="price"><%=(SANPHAM.convertToVND(sp.getDonGia() * gh.getSoLuong()))%>&nbsp;₫</span> </span>
+                                            </td>
+                                            <td class="a-center right">
+                                                <a href="XoaSanPham?MaSanPham=<%=gh.getMaSanPham()%>" title="Xóa sản phẩm" class="btn-remove"> <i class="glyphicon glyphicon-remove"></i> </a>
+                                            </td>
+                                            </tr>
+                                            <%count++;
+                                                }%>
                                             </tbody>
                                         </table>
                                     </form>

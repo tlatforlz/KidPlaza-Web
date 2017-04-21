@@ -114,6 +114,16 @@ public class GIOHANG_DAO {
         return ID;
     }
 
+    public void updateGioHang(String MaSanPham, String MaKhachHang, int SoLuong) throws SQLException{
+        GIOHANG gh = new GIOHANG();
+        IODatabase io = new IODatabase();
+        io.conn();
+        int ID = this.getID(MaKhachHang, MaSanPham);
+        String sql = "UPDATE tb_giohang SET SoLuong = " + SoLuong + " WHERE ID = " + ID;
+        io.getStatement().executeUpdate(sql);
+        io.close();     
+    }
+    
     public void ThemVaoInsertGioHang(GIOHANG gh) throws SQLException {
         IODatabase io = new IODatabase();
         io.conn();

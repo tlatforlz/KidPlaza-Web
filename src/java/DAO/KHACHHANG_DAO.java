@@ -18,6 +18,13 @@ import java.util.ArrayList;
 public class KHACHHANG_DAO {
 
    
+    public void updateAddress(KHACHHANG kh) throws SQLException{
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "UPDATE tb_khachhang SET HoKhachHang = '" + kh.getHoKhachHang() + "', TenKhachHang = '" + kh.getTenKhachHang() + "', SoDienThoai = '" + kh.getSoDienThoai() + "', DiaChi = '" + kh.getDiaChi() + "', Tinh = '" + kh.getTinh() + "' WHERE ID = " + kh.getID();
+        io.getStatement().executeUpdate(sql);
+        io.close();
+    }
     public int countKH() throws SQLException {
         IODatabase io = new IODatabase();
         io.conn();

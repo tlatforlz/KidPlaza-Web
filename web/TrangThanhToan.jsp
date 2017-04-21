@@ -88,61 +88,16 @@
                             <div class="col-lg-12 col-main">
                                 <div class="before-content"></div>
                                 <div class="cart">
-                                    <form id="submitCartForm" action="http://www.kidsplaza.vn/mtonestepcheckout/cart/updatePost/" method="post">
-                                        <div class="page-title">
-                                            <h2>Giỏ hàng</h2>
-                                        </div>
-                                        <fieldset>
-                                            <table id="shopping-cart-table" class="hidden-xs table cart-table table-striped table-bordered table-condensed">
-                                                <thead></thead>
-                                                <tfoot>
-                                                    <tr>
-                                                        <td colspan="50" class="a-right"> &nbsp;<button type="button" title="Tiếp tục mua hàng" class="btn-ribbon  btn-con" onclick="setLocation('http://www.kidsplaza.vn/')"> <span> <span>Tiếp tục mua hàng </span> </span> </button>&nbsp; <button type="button"
-                                                                                                                                                                                                        onclick="mtOneStepCheckout.updateCart('empty_cart');" title="Xóa giỏ hàng" class="btn-ribbon btn-clear"> <span><span>Xóa giỏ hàng</span></span> </button></td>
-                                                    </tr>
-                                                </tfoot>
-                                                <tbody>
-                                                    <%
-                                                        GIOHANG_DAO gh_dao = new GIOHANG_DAO();
-                                                        KHACHHANG_DAO kh_dao = new KHACHHANG_DAO();
-                                                        String email = (String) request.getSession().getAttribute("Email");
-                                                        KHACHHANG kh = kh_dao.getKhachHang(email);
-                                                        String MaKhach = kh.getMaKhachHang();
-                                                        ArrayList<GIOHANG> list = gh_dao.getList(MaKhach);
-                                                        for (GIOHANG gh : list) {
+                                    <%
+                                        GIOHANG_DAO gh_dao = new GIOHANG_DAO();
+                                        KHACHHANG_DAO kh_dao = new KHACHHANG_DAO();
+                                        String email = (String) request.getSession().getAttribute("Email");
+                                        KHACHHANG kh = kh_dao.getKhachHang(email);
+                                        String MaKhach = kh.getMaKhachHang();
+                                        ArrayList<GIOHANG> list = gh_dao.getList(MaKhach);
 
-                                                            SANPHAM_DAO sp_dao = new SANPHAM_DAO();
-                                                            SANPHAM sp = sp_dao.getSanPham(gh.getMaSanPham());
-                                                    %>
-                                                    <tr>
-                                                        <td class="a-center">
-                                                            <a href="ChiTietSanPham?MaSanPham=<%=sp.getMaSanPham()%>" title="<%=sp.getTenSanPham()%>" class="product-image"><img src="<%=sp.getHinhAnh()[0]%>" width="75" height="75" alt="<%=sp.getTenSanPham()%>"></a>
-                                                        </td>
-                                                        <td class="text">
-                                                            <p class="product-name"> <a href="ChiTietSanPham?MaSanPham=<%=sp.getMaSanPham()%>"><%=sp.getTenSanPham()%></a></p>
-                                                        </td>
+                                    %>
 
-                                                        <td class="a-right"> <span class="cart-price"> <span class="price"><%=sp.getDonGiaString()%>&nbsp;₫</span> </span>
-                                                        </td>
-                                                        <td class="a-center ">
-                                                            <div class="input-group"><span class="input-group-btn"><button class="btn btn-info btn-qty" type="button">-</button></span><input style="background: #fff" readonly="" name="cart[415370][qty]" value="<%=gh.getSoLuong()%>" size="4" title="Số lượng" class="form-control qty a-center"
-                                                                                                                                                                                              maxlength="12"><span class="input-group-btn"><button class="btn btn-info btn-qty" type="button">+</button></span></div>
-                                                        </td>
-                                                        <%
-                                                            int DonGia = sp.getDonGia() * gh.getSoLuong();
-                                                            String Tong = sp.convertToVND(DonGia);
-                                                        %>
-                                                        <td class="a-right"> <span class="cart-price"> <span class="price"><%=Tong%>&nbsp;₫</span> </span>
-                                                        </td>
-                                                        <td class="a-center right">
-                                                            <a href="" title="Xóa sản phẩm" class="btn-remove"> <i class="glyphicon glyphicon-remove"></i> </a>
-                                                        </td>
-                                                    </tr
-                                                    <%}%>
-                                                </tbody>
-                                            </table>
-                                        </fieldset>
-                                    </form>
                                 </div>
 
                                 <div class="checkout">
@@ -163,7 +118,15 @@
                                                         });
                                                     });
                                                 </script>
+                                                <script>
+                                                    $(document).ready(function () {
+                                                       var x = $("#ten").text();
+                                                       if(x === "null"){
+                                                           window.location.href="GioHang.jsp";
+                                                       }
+                                                    })
 
+                                                </script>
                                                 <li id="thongtinthanhtoan">
                                                     <div class="panel panel-info">
                                                         <div class="panel-heading"> 
@@ -178,7 +141,7 @@
                                                             <br>
                                                             <span>  
                                                                 <p style="font-weight: bold; display: inline">Tên : </p>
-                                                                <%=kh.getTenKhachHang()%> 
+                                                                <span id="ten"><%=kh.getTenKhachHang()%></span> 
                                                             </span>
                                                             <br>
                                                             <span> 

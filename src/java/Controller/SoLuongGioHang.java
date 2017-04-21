@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import DAO.GIOHANG_DAO;
 import DAO.KHACHHANG_DAO;
 import DTO.KHACHHANG;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tranl
  */
-public class CapNhapDiaChiTaiKhoan extends HttpServlet {
+public class SoLuongGioHang extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,31 +36,15 @@ public class CapNhapDiaChiTaiKhoan extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        String telephone = request.getParameter("telephone");
-        String street = request.getParameter("street");
-        String region_id = request.getParameter("region_id");
-        
-        firstname = new String(firstname.getBytes("ISO-8859-1"), "UTF-8");
-        lastname = new String(lastname.getBytes("ISO-8859-1"), "UTF-8");
-        street = new String(street.getBytes("ISO-8859-1"), "UTF-8");
-        region_id = new String(region_id.getBytes("ISO-8859-1"), "UTF-8");
-        String Email = (String)request.getSession().getAttribute("Email");
+        String Email = (String) request.getSession().getAttribute("Email");
+        String MaSanPham = request.getParameter("MaSanPham");
+        String SoLuong_s = request.getParameter("SoLuong");
+        int SoLuong = Integer.parseInt(SoLuong_s);
         KHACHHANG_DAO kh_dp = new KHACHHANG_DAO();
         KHACHHANG kh = kh_dp.getKhachHang(Email);
-        
-        kh.setDiaChi(street);
-        kh.setTenKhachHang(firstname);
-        kh.setHoKhachHang(lastname);
-        kh.setSoDienThoai(telephone);
-        kh.setTinh(region_id);
-        
-        kh_dp.updateAddress(kh);
-        
-        request.setAttribute("KhachHang", kh);
-        RequestDispatcher rd = request.getRequestDispatcher("ChiTietKhachHang.jsp");
+        GIOHANG_DAO gh_dp = new GIOHANG_DAO();
+        gh_dp.updateGioHang(MaSanPham, kh.getMaKhachHang(), SoLuong);
+        RequestDispatcher rd = request.getRequestDispatcher("GioHang.jsp");
         rd.forward(request, response);
     }
 
@@ -78,7 +63,7 @@ public class CapNhapDiaChiTaiKhoan extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(CapNhapDiaChiTaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SoLuongGioHang.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -96,7 +81,7 @@ public class CapNhapDiaChiTaiKhoan extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(CapNhapDiaChiTaiKhoan.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SoLuongGioHang.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

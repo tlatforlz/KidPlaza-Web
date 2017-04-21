@@ -180,6 +180,14 @@
         <servlet-name>CapNhapDiaChiTaiKhoan</servlet-name>
         <servlet-class>Controller.CapNhapDiaChiTaiKhoan</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SoLuongGioHang</servlet-name>
+        <servlet-class>Controller.SoLuongGioHang</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HuyGiaoDich</servlet-name>
+        <servlet-class>Controller.HuyGiaoDich</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TrangChu</servlet-name>
         <url-pattern>/TrangChu</url-pattern>
@@ -359,6 +367,14 @@
     <servlet-mapping>
         <servlet-name>CapNhapDiaChiTaiKhoan</servlet-name>
         <url-pattern>/CapNhapDiaChiTaiKhoan</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SoLuongGioHang</servlet-name>
+        <url-pattern>/SoLuongGioHang</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HuyGiaoDich</servlet-name>
+        <url-pattern>/HuyGiaoDich</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -161,8 +161,52 @@
                                     <div class="page-title">
                                         <h1>Thêm địa chỉ mới</h1>
                                     </div>
-                                    <form  action="CapNhapDiaChiTaiKhoan" method="post" id="form-validate">
-                                        <div class="fieldset"> <input name="form_key" type="hidden" value="vs7tmcbRu4uIc6CU" /> <input type="hidden" name="success_url" value="" /> <input type="hidden" name="error_url" value="" />
+                                    <script>
+                                        $(document).ready(function () {
+                                            $("#form-address").validate({
+                                                rules: {
+                                                    firstname: {
+                                                        required: true
+                                                    },
+                                                    lastname: {
+                                                        required: true
+                                                    },
+                                                    telephone: {
+                                                        required: true,
+                                                        number: true,
+                                                        minlength: 10
+                                                    },
+                                                    street: {
+                                                        required: true
+                                                    }
+                                                },
+                                                messages: {
+                                                    firstname: {
+                                                        required: "Vui lòng nhập vào tên"
+                                                    },
+                                                    lastname: {
+                                                        required: "Vui lòng nhập vào họ"
+                                                    },
+                                                    telephone: {
+                                                        required: "Vui lòng nhập vào số điện thoại",
+                                                        number: "Số điện thoại không hợp lệ",
+                                                        minlength: "Số điện thoại không hợp lệ"
+                                                    },
+                                                    street: {
+                                                        required: "Vui lòng nhập vào địa chỉ"
+                                                    }
+                                                }
+                                            });
+                                        });
+
+                                    </script>
+                                    <style>
+                                        #telephone-error, #street-error{
+                                            color:red;
+                                        }
+                                    </style>
+                                    <form  action="CapNhapDiaChiTaiKhoan" method="post" id="form-address">
+                                        <div class="fieldset"> 
                                             <h2 class="legend">Liên hệ</h2>
                                             <ul class="form-list">
                                                 <li class="fields">
@@ -190,9 +234,9 @@
                                                     <%
                                                         if (kh.getDiaChi() == null) {
                                                     %>
-                                                    <div class="input-box"> <input type="text" name="street[]" value="" title="Địa chỉ" id="street_1" class="input-text  required-entry" /></div>
+                                                    <div class="input-box"> <input type="text" name="street" value="" title="Địa chỉ" id="street" class="input-text  required-entry" /></div>
                                                         <%} else {%>
-                                                    <div class="input-box"> <input type="text" name="street[]" value="<%=kh.getDiaChi()%>" title="Địa chỉ" id="street_1" class="input-text  required-entry" /></div>
+                                                    <div class="input-box"> <input type="text" name="street" value="<%=kh.getDiaChi()%>" title="Địa chỉ" id="street" class="input-text  required-entry" /></div>
                                                         <%}%>
                                                 </li> <input type="hidden" name="city" value="N/A" /> <input type="hidden" name="postcode" value="N/A" />
                                                 <li class="fields">
@@ -604,7 +648,7 @@
                                                                     } catch (Exception e) {
 
                                                                     }
-                                                                    String name="";
+                                                                    String name = "";
                                                                     try {
                                                                         if (Email.equals("null") == false) {
                                                                             KHACHHANG_DAO kh_dp1 = new KHACHHANG_DAO();
