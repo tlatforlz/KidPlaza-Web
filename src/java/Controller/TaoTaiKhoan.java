@@ -44,17 +44,16 @@ public class TaoTaiKhoan extends HttpServlet {
         String MatKhau2 = request.getParameter("confirmation");
         KHACHHANG_DAO kh_dao = new KHACHHANG_DAO();
         int check = kh_dao.checkKhachHang(Email, SoDienThoai);
-        if (MatKhau.equals(MatKhau2) == false) {
-            if (check == 2) {
-                check = 6;
-            } else if (check == 3) {
-                check = 7;
-            } else if (check == 4) {
-                check = 8;
-            } else {
-                check = 5;
-            }
-        }
+
+//        if (check == 2) {
+//            check = 6;
+//        } else if (check == 3) {
+//            check = 7;
+//        } else if (check == 4) {
+//            check = 8;
+//        } else {
+//            check = 5;
+//        }
 
         if (check == 1) {
             //insert - jump to index.jsp
@@ -71,11 +70,11 @@ public class TaoTaiKhoan extends HttpServlet {
             session.setAttribute("Email", Email);
             RequestDispatcher rd = request.getRequestDispatcher("ChiTietKhachHang.jsp");
             rd.forward(request, response);
-        } else {
-            request.setAttribute("check", check);
-            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.forward(request, response);
         }
+        request.setAttribute("status", "none");
+        request.setAttribute("check", check);
+        RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+        rd.forward(request, response);
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 

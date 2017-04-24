@@ -143,7 +143,8 @@
                                                     $("#sp-down<%=count%>").on('click', function () {
                                                         console.log("down");
                                                         console.log(number);
-                                                        if (number === 1) {
+                                                        if (number <= 1) {
+                                                            number = 1;
                                                             $("#soluong<%=count%>").val(number);
                                                         } else {
                                                             number = parseInt(number, 10) - 1;
@@ -189,7 +190,7 @@
                                                         for (var i = toal_s.length - 1; i >= 0; i--) {
                                                             count++;
                                                             re = re + toal_s[i];
-                                                            if (count % 3 === 0 && i != 0) {
+                                                            if (count % 3 === 0 && i !== 0) {
                                                                 re += ".";
                                                             }
                                                         }

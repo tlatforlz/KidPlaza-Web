@@ -116,7 +116,7 @@
                                                             try {
                                                                 check = (Integer) request.getAttribute("check");
                                                             } catch (Exception e) {
-
+                                                                check = 0;
                                                             }
                                                         %>
                                                         <script>
@@ -158,7 +158,8 @@
                                                                                         required: true
                                                                                     },
                                                                                     confirmation: {
-                                                                                        required: true
+                                                                                        required: true,
+                                                                                        equalTo: "#password"
                                                                                     }
                                                                                 },
                                                                                 messages: {
@@ -181,7 +182,8 @@
                                                                                         required: "Vui lòng nhập password"
                                                                                     },
                                                                                     confirmation: {
-                                                                                        required: "Vui lòng nhập xác nhân password"
+                                                                                        required: "Vui lòng nhập xác nhân password",
+                                                                                        equalTo: "Password không trùng"
                                                                                     }
                                                                                 }
 
@@ -206,7 +208,7 @@
                                                                                         <div class="input-box col-sm-10">
                                                                                             <input data-url="" type="input" name="phone_number" id="phone_number" value="" title="Điện thoại" data-validate="validate-phoneprefix" class="validate-phoneprefix input-text form-control">
                                                                                             <%
-                                                                                                if (check == 3 || check == 4 || check == 7 || check == 8) {
+                                                                                                if (check == 3 || check == 4) {
                                                                                             %>
                                                                                             <div id="phone_miss" class="validation-success">Thông tin của bạn đã có trên hệ thống.</div>
                                                                                             <%}%>
@@ -236,7 +238,7 @@
                                                                                         <div class="input-box col-sm-10"> 
                                                                                             <input type="text" name="email_address" id="email_address" value="" title="Địa chỉ email" class="input-text form-control validate-email required-entry">
                                                                                             <%
-                                                                                                if (check == 2 || check == 4 || check == 6 || check == 8) {
+                                                                                                if (check == 2 || check == 4) {
                                                                                             %>
                                                                                             <div id="email_miss" class="validation-success">Thông tin của bạn đã có trên hệ thống.</div>
                                                                                             <%}%>
@@ -255,11 +257,7 @@
                                                                                         <label for="confirmation" class="required col-sm-2 control-label"><em>*</em>Nhập lại mật khẩu</label>
                                                                                         <div class="input-box col-sm-10"> 
                                                                                             <input type="password" name="confirmation" title="Nhập lại mật khẩu" id="confirmation" class="input-text form-control required-entry validate-cpassword">
-                                                                                            <%
-                                                                                                if (check == 5 || check == 6 || check == 7 || check == 8) {
-                                                                                            %>
-                                                                                            <div  class="validation-success">Mật khẩu nhập lại không đúng</div>
-                                                                                            <%}%>
+
                                                                                         </div>
                                                                                     </div>
                                                                                 </li>
@@ -357,7 +355,7 @@
                                                                     } catch (Exception e) {
 
                                                                     }
-                                                                   
+
 
                                                                 %>
                                                                 <div class="toplogin" id="topLogin">

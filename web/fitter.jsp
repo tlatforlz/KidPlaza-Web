@@ -110,6 +110,13 @@
                                             </div>
                                         </li>
                                         <%}%>
+                                        <%
+                                            if (list_sp.isEmpty()) {
+                                        %>
+                                        <h4>Không tìm thấy sản phẩm nào<h4>
+                                        <%
+                                            }
+                                        %>
                                     </ul>
                                 </div>
                                 <div class="toolbar-bottom">

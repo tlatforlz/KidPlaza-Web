@@ -43,6 +43,7 @@ public class SoLuongGioHang extends HttpServlet {
         KHACHHANG_DAO kh_dp = new KHACHHANG_DAO();
         KHACHHANG kh = kh_dp.getKhachHang(Email);
         GIOHANG_DAO gh_dp = new GIOHANG_DAO();
+        
         gh_dp.updateGioHang(MaSanPham, kh.getMaKhachHang(), SoLuong);
         RequestDispatcher rd = request.getRequestDispatcher("GioHang.jsp");
         rd.forward(request, response);

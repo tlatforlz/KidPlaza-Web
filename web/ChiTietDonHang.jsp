@@ -88,7 +88,7 @@
                         GIOHANG_DAO gh_dao = new GIOHANG_DAO();
                         KHACHHANG_DAO kh_dao = new KHACHHANG_DAO();
                         String email = (String) request.getSession().getAttribute("Email");
-                        KHACHHANG kh = kh_dao.getKhachHang(email);
+                            KHACHHANG kh = kh_dao.getKhachHang(email);
                         String MaKhach = kh.getMaKhachHang();
                         ArrayList<GIOHANG> list = gh_dao.getList(MaKhach);
                     %>

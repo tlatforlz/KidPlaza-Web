@@ -17,12 +17,8 @@ import java.text.ParseException;
 public class Demo {
 
     public static void main(String[] args) throws SQLException, ParseException {
-        KHACHHANG_DAO  kh_dp = new KHACHHANG_DAO();
-        KHACHHANG kh = kh_dp.getKhachHang("tranleanhthe@gmail.com");
-        kh.Show();
-        kh.setDiaChi("Bla bla");
-        kh_dp.updateAddress(kh);
-        kh.Show();
-        
+        KHACHHANG_DAO kh_dp = new KHACHHANG_DAO();
+        int check = kh_dp.checkKhachHang("tranleanhthe@.com", "0917068945");
+        System.out.println(check);
     }
 }
