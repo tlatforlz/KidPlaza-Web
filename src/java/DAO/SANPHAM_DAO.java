@@ -5,7 +5,6 @@
  */
 package DAO;
 
-import DTO.LOAISANPHAM;
 import DTO.SANPHAM;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,15 +24,205 @@ import java.util.Date;
 public class SANPHAM_DAO {
 
     
-    public void XoaSanPham(String MaSanPham) throws SQLException{
+    public void setGiaGocMau(int giaGoc, String MaSanPham) throws SQLException{
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "UPDATE tb_sanpham_temp SET GiaGoc = " + giaGoc + " WHERE MaSanPham = '" + MaSanPham + "'";
+        io.getStatement().executeUpdate(sql);       
+        io.close();
+    }
+    
+    public void setGiaGoc(int giaGoc, String MaSanPham) throws SQLException{
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "UPDATE tb_sanpham SET GiaGoc = " + giaGoc + " WHERE MaSanPham = '" + MaSanPham + "'";
+        io.getStatement().executeUpdate(sql);       
+        io.close();
+    }
+    
+    public void insertKhoAnh_MauID(int ID) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "SELECT * FROM tb_khoanh_temp WHERE MaSanPham = " + ID;
+        ResultSet rs = io.getResultSet(sql);
+        while (rs.next()) {
+            String url = rs.getString("URL");
+            int AnhDaiDien = rs.getInt("AnhDaiDien");
+            String sql1 = "INSERT INTO tb_khoanh(URL, MaSanPham, AnhDaiDien) VALUES (?,?,?)";
+            PreparedStatement stm = io.io_prepare(sql1);
+            stm.setString(1, url);
+            stm.setInt(2, ID);
+            stm.setInt(3, AnhDaiDien);
+            stm.executeUpdate();
+        }
+        io.close();
+    }
+
+    public void insertLoaiSanPham_MauID(int ID) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "SELECT * FROM tb_sanpham_has_tb_loaisanpham_temp WHERE tb_sanpham_ID = " + ID;
+        ResultSet rs = io.getResultSet(sql);
+        while (rs.next()) {
+            int ID_loai = rs.getInt("tb_loaisanpham_ID");
+            String sql1 = "INSERT INTO tb_sanpham_has_tb_loaisanpham(tb_sanpham_ID, tb_loaisanpham_ID) VALUES (?, ?)";
+            PreparedStatement stm = io.io_prepare(sql1);
+            stm.setInt(1, ID);
+            stm.setInt(2, ID_loai);
+            stm.executeUpdate();
+        }
+        io.close();
+    }
+
+    public void insertSanPham_Mau(String MaSanPham) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        SANPHAM sp = getSanPham_Mau(MaSanPham);
+        String sql = "INSERT INTO tb_sanpham(ID,MaSanPham,TenSanPham,GiaGoc,DonGia,GiamGia,MoTa,SoLuong,LuotXem,LuotBinhLuan,SoLanMua,tb_nhasanxuat_MaNSX) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        PreparedStatement stm = io.io_prepare(sql);
+        stm.setInt(1, sp.getID());
+        stm.setString(2, MaSanPham);
+        stm.setString(3, sp.getTenSanPham());
+        stm.setInt(4, sp.getGiaGoc());
+        stm.setInt(5, sp.getDonGia());
+        stm.setInt(6, sp.getGiamGia());
+        stm.setString(7, sp.getMoTa());
+        stm.setInt(8, sp.getSoLuong());
+        stm.setInt(9, sp.getLuotXem());
+        stm.setInt(10, sp.getLuotBinhLuan());
+        stm.setInt(11, sp.getSoLanMua());
+        stm.setString(12, sp.getTb_nhasanxuat_MaNSX());
+
+        stm.executeUpdate();
+        io.close();
+    }
+
+    public void ChuyenMauToChinh(String MaSanPham) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        // chuyen kho anh truoc.
+        int ID = return_IDSanPham_Mau(MaSanPham);
+        if (checkDup(MaSanPham)) {
+            XoaKhoAnh(MaSanPham);
+            XoaLoaiSanPham(MaSanPham);
+            XoaSanPham(MaSanPham);
+            insertKhoAnh_MauID(ID);
+            insertLoaiSanPham_MauID(ID);
+            insertSanPham_Mau(MaSanPham);
+            XoaKhoAnhMau(MaSanPham);
+            XoaLoaiSanPhamMau(MaSanPham);
+            XoaSanPhamMau(MaSanPham);
+        } else {
+            insertKhoAnh_MauID(ID);
+            insertLoaiSanPham_MauID(ID);
+            insertSanPham_Mau(MaSanPham);
+            XoaKhoAnhMau(MaSanPham);
+            XoaLoaiSanPhamMau(MaSanPham);
+            XoaSanPhamMau(MaSanPham);
+        }
+        io.close();
+    }
+
+    public void XoaSanPhamMau(String MaSanPham) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "DELETE FROM tb_sanpham_temp WHERE MaSanPham = '" + MaSanPham + "'";
+        io.getStatement().executeUpdate(sql);
+        io.close();
+    }
+
+    public void XoaLoaiSanPhamMau(String MaSanPham) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        int ID = this.return_IDSanPham_Mau(MaSanPham);
+        String sql = "DELETE FROM tb_sanpham_has_tb_loaisanpham_temp WHERE tb_sanpham_ID = " + ID;
+        io.getStatement().executeUpdate(sql);
+        io.close();
+    }
+
+    public void XoaKhoAnhMau(String MaSanPham) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        int ID = this.return_IDSanPham_Mau(MaSanPham);
+        String sql = "DELETE FROM tb_khoanh_temp WHERE MaSanPham = " + ID;
+        io.getStatement().executeUpdate(sql);
+        io.close();
+    }
+
+    
+    public ArrayList<SANPHAM> getListSP_temp() throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        ArrayList<SANPHAM> list = new ArrayList<SANPHAM>();
+        String sql = "SELECT * FROM tb_sanpham_temp";
+        ResultSet rs = io.getResultSet(sql);
+        while (rs.next()) {
+            int ID = rs.getInt("ID");
+            String MaSanPham = rs.getString("MaSanPham");
+            String TenSanPham = rs.getString("TenSanPham");
+            int DonGia = rs.getInt("DonGia");
+            int GiaGoc = rs.getInt("GiaGoc");
+            int SoLuong = rs.getInt("SoLuong");
+            SANPHAM sp = new SANPHAM();
+            sp.setID(ID);
+            sp.setMaSanPham(MaSanPham);
+            sp.setTenSanPham(TenSanPham);
+            sp.setDonGia(DonGia);
+            sp.setSoLuong(SoLuong);
+            sp.setGiaGoc(GiaGoc);
+            list.add(sp);
+        }
+        io.close();
+        return list;
+    }
+
+    public void setGiaGoc(String MaSanPham, int GiaGoc) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "UPDATE tb_sanpham SET GiaGoc = " + GiaGoc + " WHERE MaSanPham = '" + MaSanPham + "'";
+        io.getStatement().executeUpdate(sql);
+        io.close();
+    }
+
+    public void setGiaGocMau(String MaSanPham, int GiaGoc) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "UPDATE tb_sanpham_temp SET GiaGoc = " + GiaGoc + " WHERE MaSanPham = '" + MaSanPham + "'";
+        io.getStatement().executeUpdate(sql);
+        io.close();
+    }
+
+    public void setMau(String MaSanPham) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "UPDATE tb_sanpham_temp SET Mau = 1 WHERE MaSanPham = '" + MaSanPham + "'";
+        io.getStatement().executeUpdate(sql);
+        io.close();
+    }
+
+    public void setSoLuong(String MaSanPham, int SoLuong) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "UPDATE tb_sanpham_temp set SoLuong = " + SoLuong + " WHERE MaSanPham = '" + MaSanPham + "'";
+        io.getStatement().executeUpdate(sql);
+        io.close();
+    }
+
+    public void XoaSanPham(String MaSanPham) throws SQLException {
         IODatabase io = new IODatabase();
         io.conn();
         String sql = "DELETE FROM tb_sanpham WHERE MaSanPham = '" + MaSanPham + "'";
         io.getStatement().executeUpdate(sql);
         io.close();
     }
-    
-    public void XoaLoaiSanPham(String MaSanPham) throws SQLException{
+
+    public void XoaBinhLuan(String MaSanPham){
+        IODatabase io = new IODatabase();
+        io.conn();
+        
+        io.close();
+    }
+    public void XoaLoaiSanPham(String MaSanPham) throws SQLException {
         IODatabase io = new IODatabase();
         io.conn();
         int ID = this.return_IDSanPham(MaSanPham);
@@ -41,7 +230,8 @@ public class SANPHAM_DAO {
         io.getStatement().executeUpdate(sql);
         io.close();
     }
-     public void XoaKhoAnh(String MaSanPham) throws SQLException{
+
+    public void XoaKhoAnh(String MaSanPham) throws SQLException {
         IODatabase io = new IODatabase();
         io.conn();
         int ID = this.return_IDSanPham(MaSanPham);
@@ -49,7 +239,7 @@ public class SANPHAM_DAO {
         io.getStatement().executeUpdate(sql);
         io.close();
     }
-    
+
     public int GetSoLuongGiaTien(int GiaKD, int GiaKT) throws SQLException {
         int SoLuong = 0;
 
@@ -327,6 +517,22 @@ public class SANPHAM_DAO {
         io.close();
     }
 
+    public void insert_khoAnh_Mau(String MaSanPham, String AnhDaiDien, String[] ListAnh) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        int ID = return_IDSanPham_Mau(MaSanPham);
+        for (String anh : ListAnh) {
+            String query = "INSERT INTO tb_khoanh_temp (URL, MaSanPham) VALUES (?,?)";
+            PreparedStatement pstatement = io.io_prepare(query);
+            pstatement.setString(1, anh);
+            pstatement.setInt(2, ID);
+            pstatement.executeUpdate();
+        }
+        String query = "UPDATE tb_khoanh_temp SET AnhDaiDien = 1 WHERE URL = '" + AnhDaiDien + "'";
+        io.executeQuery(query);
+        io.close();
+    }
+
     public void insert_SP(String MaSP, String TenSanPham, int DonGia, int GiamGia, String MoTa, String tb_nhasanxuat_MaNSV) throws SQLException, ParseException {
         IODatabase io = new IODatabase();
         io.conn();
@@ -345,13 +551,87 @@ public class SANPHAM_DAO {
         pstatement.setInt(4, GiamGia);
         pstatement.setDate(5, sqlDate);
         pstatement.setString(6, MoTa);
-       // pstatement.setInt(7, DoTuoiYeuCau);
+        // pstatement.setInt(7, DoTuoiYeuCau);
         pstatement.setString(7, tb_nhasanxuat_MaNSV);
 
         String setUtf8 = "SET NAMES 'UTF8'";
         io.executeQuery(setUtf8);
 
         pstatement.executeUpdate();
+        io.close();
+    }
+
+    public void insert_SP_Mau(String MaSP, String TenSanPham, int DonGia, int GiamGia, String MoTa, String tb_nhasanxuat_MaNSV) throws SQLException, ParseException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        String query = "INSERT INTO db_cuahangdochoi.tb_sanpham_temp (MaSanPham,TenSanPham,DonGia,GiamGia,NgayCapNhap,MoTa,tb_nhasanxuat_MaNSX) VALUES (?,?,?,?,?,?,?)";
+
+        LocalDate localDate = LocalDate.now();
+        String date = DateTimeFormatter.ofPattern("yyyy/MM/dd").format(localDate);
+        java.util.Date date2 = Calendar.getInstance().getTime();
+        java.sql.Date sqlDate = new java.sql.Date(date2.getTime());
+
+        PreparedStatement pstatement = io.io_prepare(query);
+
+        pstatement.setString(1, MaSP);
+        pstatement.setString(2, TenSanPham);
+        pstatement.setInt(3, DonGia);
+        pstatement.setInt(4, GiamGia);
+        pstatement.setDate(5, sqlDate);
+        pstatement.setString(6, MoTa);
+        // pstatement.setInt(7, DoTuoiYeuCau);
+        pstatement.setString(7, tb_nhasanxuat_MaNSV);
+
+        String setUtf8 = "SET NAMES 'UTF8'";
+        io.executeQuery(setUtf8);
+
+        pstatement.executeUpdate();
+        io.close();
+    }
+
+    public boolean checkDup(String MaSanPham) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "SELECT COUNT(ID) FROM tb_sanpham WHERE MaSanPham = '" + MaSanPham + "'";
+        boolean check = false;
+        ResultSet rs = io.getResultSet(sql);
+        if (rs.next()) {
+            int count = rs.getInt(1);
+            if (count == 1) {
+                check = true;
+            }
+        }
+        io.close();
+        return check;
+    }
+
+    public boolean checkDupMau(String MaSanPham) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "SELECT COUNT(ID) FROM tb_sanpham_temp WHERE MaSanPham = '" + MaSanPham + "'";
+        boolean check = false;
+        ResultSet rs = io.getResultSet(sql);
+        if (rs.next()) {
+            int count = rs.getInt(1);
+            if (count == 1) {
+                check = true;
+            }
+        }
+        io.close();
+        return check;
+    }
+
+    public void addSoLuongMauDup(String MaSanPham, int SoLuong) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "SELECT SoLuong FROM tb_sanpham_temp WHERE MaSanPham = '" + MaSanPham + "'";
+        int sl = 0;
+        ResultSet rs = io.getResultSet(sql);
+        if (rs.next()) {
+            sl = rs.getInt(1);
+        }
+        sl = sl + SoLuong;
+        setSoLuong(MaSanPham, sl);
         io.close();
     }
 
@@ -383,6 +663,20 @@ public class SANPHAM_DAO {
         return ID;
     }
 
+    public int return_IDSanPham_Mau(String SanPham) throws SQLException {
+        int ID = 0;
+        IODatabase io = new IODatabase();
+        io.conn();
+        String query = "SELECT * FROM db_cuahangdochoi.tb_sanpham_temp where MaSanPham = '" + SanPham + "'";
+        Statement st = io.getConnection().createStatement();
+        ResultSet rs = st.executeQuery(query);
+        if (rs.next()) {
+            ID = rs.getInt("ID");
+        }
+        io.close();
+        return ID;
+    }
+
     public void insert_LoaiSanPham(String[] LoaiSanPham, String MaSanPham) throws SQLException {
         IODatabase io = new IODatabase();
         io.conn();
@@ -390,6 +684,22 @@ public class SANPHAM_DAO {
         int ID_SP = return_IDSanPham(MaSanPham);
         for (String loai : LoaiSanPham) {
             String query = "INSERT INTO db_cuahangdochoi.tb_sanpham_has_tb_loaisanpham (tb_sanpham_ID, tb_loaisanpham_ID) VALUE (?, ?)";
+            int ID_LSP = return_IDLoaiSanPham(loai);
+            PreparedStatement pstatement = io.io_prepare(query);
+            pstatement.setInt(1, ID_SP);
+            pstatement.setInt(2, ID_LSP);
+            pstatement.executeUpdate();
+        }
+        io.close();
+    }
+
+    public void insert_LoaiSanPham_Mau(String[] LoaiSanPham, String MaSanPham) throws SQLException {
+        IODatabase io = new IODatabase();
+        io.conn();
+
+        int ID_SP = return_IDSanPham_Mau(MaSanPham);
+        for (String loai : LoaiSanPham) {
+            String query = "INSERT INTO tb_sanpham_has_tb_loaisanpham_temp (tb_sanpham_ID, tb_loaisanpham_ID) VALUE (?, ?)";
             int ID_LSP = return_IDLoaiSanPham(loai);
             PreparedStatement pstatement = io.io_prepare(query);
             pstatement.setInt(1, ID_SP);
@@ -411,17 +721,19 @@ public class SANPHAM_DAO {
             String MaSanPham = rs.getString("MaSanPham");
             String TenSanPham = rs.getString("TenSanPham");
             int DonGia = rs.getInt("DonGia");
+            int GiaGoc = rs.getInt("GiaGoc");
             int GiamGia = rs.getInt("GiamGia");
             Date NgayCapNhap = rs.getDate("NgayCapNhap");
             String MoTa = rs.getString("MoTa");
 
+            int SoLuongSP = rs.getInt("SoLuong");
             int LuotXem = rs.getInt("LuotXem");
             int LuotBinhLuan = rs.getInt("LuotBinhLuan");
             int SoLanMua = rs.getInt("SoLanMua");
 
             String tb_nhasanxuat_MaNSX = rs.getString("tb_nhasanxuat_MaNSX");
             SANPHAM sp = new SANPHAM(ID, MaSanPham, TenSanPham, DonGia, GiamGia, NgayCapNhap, MoTa, LuotXem, LuotBinhLuan, SoLanMua, tb_nhasanxuat_MaNSX);
-
+            
             String sql1 = "select count(id) from tb_khoanh where MaSanPham = '" + ID + "'";
             ResultSet kq1 = io.getResultSet(sql1);
             int SoLuong = 0;
@@ -442,8 +754,66 @@ public class SANPHAM_DAO {
                 sp.getHinhAnh()[index] = kq3.getString("URL");
                 index++;
             }
+            
             sp_return = sp;
+            sp_return.setSoLuong(SoLuongSP);
+            sp_return.setGiaGoc(GiaGoc);
+            sp_return.setSoLuong(SoLuongSP);
         }
+
+        return sp_return;
+    }
+
+    public SANPHAM getSanPham_Mau(String MaSanPhamNeed) throws SQLException {
+
+        IODatabase io = new IODatabase();
+        io.conn();
+        SANPHAM sp_return = new SANPHAM();
+        String query = "SELECT * FROM tb_sanpham_temp WHERE MaSanPham = '" + MaSanPhamNeed + "'";
+        ResultSet rs = io.getResultSet(query);
+        if (rs.next()) {
+            int ID = rs.getInt("ID");
+            String MaSanPham = rs.getString("MaSanPham");
+            String TenSanPham = rs.getString("TenSanPham");
+            int DonGia = rs.getInt("DonGia");
+            int GiaGoc = rs.getInt("GiaGoc");
+            int GiamGia = rs.getInt("GiamGia");
+            Date NgayCapNhap = rs.getDate("NgayCapNhap");
+            String MoTa = rs.getString("MoTa");
+
+            int SoLuongSP = rs.getInt("SoLuong");
+            int LuotXem = rs.getInt("LuotXem");
+            int LuotBinhLuan = rs.getInt("LuotBinhLuan");
+            int SoLanMua = rs.getInt("SoLanMua");
+
+            String tb_nhasanxuat_MaNSX = rs.getString("tb_nhasanxuat_MaNSX");
+            SANPHAM sp = new SANPHAM(ID, MaSanPham, TenSanPham, DonGia, GiamGia, NgayCapNhap, MoTa, LuotXem, LuotBinhLuan, SoLanMua, tb_nhasanxuat_MaNSX);
+            sp.setSoLuong(SoLuongSP);
+            sp.setGiaGoc(GiaGoc);
+            String sql1 = "select count(id) from tb_khoanh_temp where MaSanPham = '" + ID + "'";
+            ResultSet kq1 = io.getResultSet(sql1);
+            int SoLuong = 0;
+            if (kq1.next()) {
+                SoLuong = kq1.getInt(1);
+            }
+            sp.setHinhAnh(new String[SoLuong]);
+            String sql2 = "select * from tb_khoanh_temp where MaSanPham ='" + ID + "' and AnhDaiDien = 1";
+            ResultSet kq2 = io.getResultSet(sql2);
+            if (kq2.next()) {
+                sp.getHinhAnh()[0] = kq2.getString("URL");
+            }
+
+            String sql3 = "select * from tb_khoanh_temp where MaSanPham='" + ID + "' and AnhDaiDien = 0";
+            ResultSet kq3 = io.getResultSet(sql3);
+            int index = 1;
+            while (kq3.next()) {
+                sp.getHinhAnh()[index] = kq3.getString("URL");
+                index++;
+            }
+            sp_return = sp;
+            sp_return.setSoLuong(SoLuongSP);
+        }
+
         return sp_return;
     }
 
@@ -577,25 +947,26 @@ public class SANPHAM_DAO {
 
         return list;
     }
-    
-    public SANPHAM getSanPhambyID(int ID) throws SQLException{
+
+    public SANPHAM getSanPhambyID(int ID) throws SQLException {
         SANPHAM sp = new SANPHAM();
         ArrayList<SANPHAM> list = this.get_ND();
-        for(SANPHAM temp : list){
-            if(temp.getID() == ID){
+        for (SANPHAM temp : list) {
+            if (temp.getID() == ID) {
                 sp = temp;
                 break;
             }
-        }            
+        }
         return sp;
     }
+
     public ArrayList<SANPHAM> getSanPhamTuongTu(SANPHAM sp) throws SQLException {
         ArrayList<SANPHAM> list = new ArrayList<SANPHAM>();
         IODatabase io = new IODatabase();
         io.conn();
-        String sql = "SELECT * FROM db_cuahangdochoi.tb_sanpham WHERE  DonGia >= " + sp.getDonGia() + " and tb_nhasanxuat_MaNSX like '" + sp.getTb_nhasanxuat_MaNSX()+ "' limit 0, 6";
+        String sql = "SELECT * FROM db_cuahangdochoi.tb_sanpham WHERE  DonGia >= " + sp.getDonGia() + " and tb_nhasanxuat_MaNSX like '" + sp.getTb_nhasanxuat_MaNSX() + "' limit 0, 6";
         ResultSet rs = io.getResultSet(sql);
-        while(rs.next()){
+        while (rs.next()) {
             String maSanPham = rs.getString("MaSanPham");
             SANPHAM temp = this.getSanPham(maSanPham);
             list.add(temp);
@@ -612,6 +983,5 @@ public class SANPHAM_DAO {
         io.executeQuery(query);
         io.close();
     }
-    
-   
+
 }

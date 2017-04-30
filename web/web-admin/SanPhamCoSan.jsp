@@ -1,19 +1,21 @@
 <%-- 
-    Document   : DanhSachSanPham
-    Created on : Mar 29, 2017, 12:32:15 AM
+    Document   : SanPhamCoSan
+    Created on : Apr 26, 2017, 8:50:02 AM
     Author     : tranl
 --%>
 
-<%@page import="java.util.Comparator"%>
-<%@page import="java.util.Collections"%>
 <%@page import="DTO.SANPHAM"%>
+<!DOCTYPE HTML>
+<%@page import="DTO.NHASANXUAT"%>
+<%@page import="DTO.NHASANXUAT"%>
+<%@page import="DAO.NHASANXUAT_DAO"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="DAO.SANPHAM_DAO"%>
+<%@page import="DTO.LOAISANPHAM"%>
+<%@page import="DAO.LOAISANPHAM_DAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <html>
     <head>
-        <title>Danh sách sản phẩm </title>
+        <title>Thêm Sản Có Sẵn</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <!-- Bootstrap Core CSS -->
@@ -43,7 +45,7 @@
         <script src="js/ckeditor/ckeditor.js" type="text/javascript"></script>
     </head>
     <body>
-          <%
+        <%
             String username = (String) request.getSession().getAttribute("username");
             if (username == null) {
         %>
@@ -54,7 +56,6 @@
             }
         %>
         <div id="wrapper">
-            <!-- Navigation -->
              <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -195,58 +196,77 @@
                 <!-- /.navbar-static-side -->
             </nav>
 
-            <div id="page-wrapper" style="background-color: white">
+            <div id="page-wrapper">
                 <div class="graphs">
                     <div class="xs">
-                        <%
-                            SANPHAM_DAO sp_dao = new SANPHAM_DAO();
-                            ArrayList<SANPHAM> list = sp_dao.get_ND();
 
-                        %>
-                        <h3>Danh mục sản phẩm</h3>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Mã sản phẩm</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Giá bán</th>
-                                    <th>Giảm giá</th>
-                                    <th>Ngày cập nhập</th>
-                                    <th>Nhà sản xuất</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%                                    int count = 1;
-                                    for (SANPHAM sp : list) {
-                                %>
-                                <tr>
-                                    <td name="STT"> <%=count%></td>
-                                    <td name="MaSanPham"><%=sp.getMaSanPham()%></td>
-                                    <td name="TenSanPham"><%=sp.getTenSanPham()%></td>
-                                    <td name="GiaBan"><%=sp.getDonGiaString()%></td>
-                                    <td name="KhuyenMai"><%=sp.getGiamGiaString()%></td>
-                                    <td name="NgayCapNhap"><%=sp.getNgayCapNhap()%></td>
-                                    <td name="NhaSanXuat"><%=sp.getTb_nhasanxuat_MaNSX()%></td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary"><a target="_blank" style="color:black" href="ChiTietSanPham?MaSanPham=<%=sp.getMaSanPham()%>">Xem</a></button>
-                                        <button type="button" class="btn btn-default"><a target="_blank" style="color:black" href="ChinhSuaSanPham?MaSanPham=<%=sp.getMaSanPham()%>">Sửa</a></button>
-                                        <button type="button" class="btn btn-warning"><a style="color:black" href="XoaMaSanPham?MaSanPham=<%=sp.getMaSanPham()%>">Xóa</a></button>
-                                    </td>                                    
-                                </tr>
-                                <%count++;
-                                    }%>
-                            </tbody>
-                        </table>
+                        <h3>Tìm Sản phẩm sản phẩm</h3>
+
+                        <div class="tab-pane active" id="horizontal-form">
+                            <form class="form-horizontal" action="TimSanPhamThem" method="POST">
+
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-2 control-label">Tên sản phẩm</label>
+                                    <div class="col-sm-6">
+                                        <input name="sp_name" type="text" class="form-control1" id="focusedinput" placeholder="Tên sản phẩm">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="submit" class="btn-success btn"> Tìm kiếm </button>
+                                        <button type="button" class="btn btn-default"><a style="color:black" href="ThemPhieuNhap">Hủy</a></button>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                            <%
+                                ArrayList<SANPHAM> list_sp = (ArrayList<SANPHAM>) request.getAttribute("List");
+                                if (list_sp.isEmpty() == false) {
+                            %>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Mã sản phẩm</th>
+                                        <th>Tên Sản Phẩm</th>
+                                        <th>Số Lượng</th>
+                                        <th>Giá Tiền</th>
+
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%                                    int count = 1;
+                                        for (SANPHAM sp : list_sp) {
+                                    %>
+                                    <tr>    
+
+                                        <td name="STT"> <%=count%></td>
+
+                                        <td name="MaSanPham"><%=sp.getMaSanPham()%></td>
+                                        <td name="TenSanPham"><%=sp.getTenSanPham()%></td>
+                                        <td name="SoLuong"><%=sp.getSoLuong()%></td>
+                                        <td name="DonGia"><%=SANPHAM.convertToVND(sp.getGiaGoc())%></td>
+
+                                        <td>
+                                            <button type="button" class="btn btn-primary"><a style="color:black" href="ThemMoiPhieuNhap?yc=CoSang&MaSanPham=<%=sp.getMaSanPham()%>">Thêm</a></button>
+                                             
+                                        </td>                                    
+                                    </tr>
+                                    <%count++;
+                                        }
+                                    }else{%>
+                                <h5>Không tìm thấy sản phẩm nào</h5>
+                                    <%}%>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- /#page-wrapper -->
         </div>
-        <!-- /#page-wrapper -->
-    </div>
-    <!-- /#wrapper -->
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-</body>
+        <!-- /#wrapper -->
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
+    </body>
 </html>

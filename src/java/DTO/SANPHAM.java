@@ -16,18 +16,27 @@ public class SANPHAM {
     private int ID;
     private String MaSanPham;
     private String TenSanPham;
+    private int GiaGoc;
     private int DonGia;
     private int GiamGia;
 
     private Date NgayCapNhap;
     private String MoTa;
-   
+    private int SoLuong;
+
     private int LuotXem;
     private int LuotBinhLuan;
     private int SoLanMua;
     private String[] HinhAnh;
     
-    
+
+    public int getSoLuong() {
+        return SoLuong;
+    }
+
+    public void setSoLuong(int SoLuong) {
+        this.SoLuong = SoLuong;
+    }    
 
     private String tb_nhasanxuat_MaNSX;
 
@@ -45,6 +54,16 @@ public class SANPHAM {
         this.tb_nhasanxuat_MaNSX = tb_nhasanxuat_MaNSX;
     }
 
+    public int getGiaGoc() {
+        return GiaGoc;
+    }
+
+    public void setGiaGoc(int GiaGoc) {
+        this.GiaGoc = GiaGoc;
+    }
+
+    
+    
     
     public void Show(){
         System.out.println("ID " + ID + "\nMaSanPham : " + this.MaSanPham + "\nTenSanPham : " + this.TenSanPham + "\nDonGia : " + this.DonGia + "\nNgayCapNhap " + this.NgayCapNhap + "\nMoTa : " + this.MoTa);

@@ -188,6 +188,62 @@
         <servlet-name>HuyGiaoDich</servlet-name>
         <servlet-class>Controller.HuyGiaoDich</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ThemPhieuNhap</servlet-name>
+        <servlet-class>Controller.ThemPhieuNhap</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ThemMoiPhieuNhap</servlet-name>
+        <servlet-class>Controller.ThemMoiPhieuNhap</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChinhSuaPhieuNhap</servlet-name>
+        <servlet-class>Controller.ChinhSuaPhieuNhap</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TimSanPhamThem</servlet-name>
+        <servlet-class>Controller.TimSanPhamThem</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ThemSanPhamPhieuNhapCoSan</servlet-name>
+        <servlet-class>Controller.ThemSanPhamPhieuNhapCoSan</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>XoaSanPhamPhieuNhap</servlet-name>
+        <servlet-class>Controller.XoaSanPhamPhieuNhap</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChinhSuaSanPhamPhieuNhap</servlet-name>
+        <servlet-class>Controller.ChinhSuaSanPhamPhieuNhap</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChinhSuaChiTiet</servlet-name>
+        <servlet-class>Controller.ChinhSuaChiTiet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HuyPhieuNhap</servlet-name>
+        <servlet-class>Controller.HuyPhieuNhap</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LuuPhieuNhap</servlet-name>
+        <servlet-class>Controller.LuuPhieuNhap</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ThemNhaCungCap</servlet-name>
+        <servlet-class>Controller.ThemNhaCungCap</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DanhSachPhieuNhap</servlet-name>
+        <servlet-class>Controller.DanhSachPhieuNhap</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TimMaPhieuNhap</servlet-name>
+        <servlet-class>Controller.TimMaPhieuNhap</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>XemChiTietPhieuNhap</servlet-name>
+        <servlet-class>Controller.XemChiTietPhieuNhap</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TrangChu</servlet-name>
         <url-pattern>/TrangChu</url-pattern>
@@ -375,6 +431,62 @@
     <servlet-mapping>
         <servlet-name>HuyGiaoDich</servlet-name>
         <url-pattern>/HuyGiaoDich</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ThemPhieuNhap</servlet-name>
+        <url-pattern>/ThemPhieuNhap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ThemMoiPhieuNhap</servlet-name>
+        <url-pattern>/ThemMoiPhieuNhap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChinhSuaPhieuNhap</servlet-name>
+        <url-pattern>/ChinhSuaPhieuNhap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TimSanPhamThem</servlet-name>
+        <url-pattern>/TimSanPhamThem</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ThemSanPhamPhieuNhapCoSan</servlet-name>
+        <url-pattern>/ThemSanPhamPhieuNhapCoSan</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>XoaSanPhamPhieuNhap</servlet-name>
+        <url-pattern>/XoaSanPhamPhieuNhap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChinhSuaSanPhamPhieuNhap</servlet-name>
+        <url-pattern>/ChinhSuaSanPhamPhieuNhap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChinhSuaChiTiet</servlet-name>
+        <url-pattern>/ChinhSuaChiTiet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HuyPhieuNhap</servlet-name>
+        <url-pattern>/HuyPhieuNhap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LuuPhieuNhap</servlet-name>
+        <url-pattern>/LuuPhieuNhap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ThemNhaCungCap</servlet-name>
+        <url-pattern>/ThemNhaCungCap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DanhSachPhieuNhap</servlet-name>
+        <url-pattern>/DanhSachPhieuNhap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TimMaPhieuNhap</servlet-name>
+        <url-pattern>/TimMaPhieuNhap</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>XemChiTietPhieuNhap</servlet-name>
+        <url-pattern>/XemChiTietPhieuNhap</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

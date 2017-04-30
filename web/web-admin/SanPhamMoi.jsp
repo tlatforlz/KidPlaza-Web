@@ -1,3 +1,9 @@
+<%-- 
+    Document   : SanPhamMoi
+    Created on : Apr 25, 2017, 11:57:03 PM
+    Author     : tranl
+--%>
+
 <!DOCTYPE HTML>
 <%@page import="DTO.NHASANXUAT"%>
 <%@page import="DTO.NHASANXUAT"%>
@@ -8,7 +14,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head>
-        <title>Thêm Sản Phẩm</title>
+        <title>Thêm Sản Phẩm Mới</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <!-- Bootstrap Core CSS -->
@@ -36,6 +42,8 @@
         </script>
 
         <script src="js/ckeditor/ckeditor.js" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
     </head>
     <body>
         <%
@@ -49,7 +57,7 @@
             }
         %>
         <div id="wrapper">
-            <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+             <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
@@ -189,18 +197,63 @@
                 <!-- /.navbar-static-side -->
             </nav>
 
+            <script>
+            $(document).ready(function () {
+                $("#form-sanpham").validate({
+                    rules: {
+                        sp_name: {
+                            required: true
+                        },
+                        sp_mota: {
+                            required: true
+                        },
+                        sp_soluong: {
+                            required: true
+                        },
+                        sp_giatien: {
+                            required: true
+                        },
+                        sp_giatiengoc: {
+                            required: true
+                        }
+
+                    },
+                    messages: {
+                        sp_name: {
+                            required: "Vui lòng nhập tên sản phẩm"
+                        },
+                        sp_mota: {
+                            required: "Vui lòng nhập mô tả"
+                        },
+                        sp_soluong: {
+                            required: "Vui lòng nhập số lượng"
+                        },
+                        sp_giatien: {
+                            required: "Vui lòng nhập giá tiền"
+                        },
+                        sp_giatiengoc: {
+                            required: "Vui lòng nhập giá gốc"
+                        }
+                    }
+                });
+            });
+            </script>
+            <style>
+                #sp_name-error, #sp_mota-error, #sp_soluong-error, #sp_giatien-error, #sp_giatiengoc-error{
+                    color:red;
+                }
+            </style>
             <div id="page-wrapper">
                 <div class="graphs">
                     <div class="xs">
                         <h3>Thêm sản phẩm</h3>
                         <div class="tab-pane active" id="horizontal-form">
-                            <form class="form-horizontal" action="SanPham?yc=them" method="POST">
+                            <form id="form-sanpham" class="form-horizontal" action="ThemMoiPhieuNhap?yc=ThemMoi" method="POST">
                                 <div class="form-group">
                                     <label for="focusedinput" class="col-sm-2 control-label">Tên sản phẩm</label>
                                     <div class="col-sm-8">
-                                        <input name="sp_name" type="text" class="form-control1" id="focusedinput" placeholder="Tên sản phẩm">
+                                        <input name="sp_name" type="text" class="form-control1" id="sp_name" placeholder="Tên sản phẩm">
                                     </div>
-
                                 </div>
                                 <div class="form-group">
                                     <label for="checkbox" class="col-sm-2 control-label">Danh mục sản phẩm</label>
@@ -241,17 +294,31 @@
                                     <div class="col-sm-8"><textarea name="sp_mota" id="txtarea1" cols="50" rows="4" class="form-control1"></textarea></div>
                                 </div>
                                 <script>
-            CKEDITOR.replace('sp_mota', {
-                filebrowserImageUploadUrl: 'browerserver.jsp',
-                filebrowserBrowseUrl: 'browerserver.jsp',
-                filebrowserImageBrowseUrl: 'browerserver.jsp',
-                filebrowserUploadUrl: 'browerserver.jsp'
-            });
+                                    CKEDITOR.replace('sp_mota', {
+                                        filebrowserImageUploadUrl: 'browerserver.jsp',
+                                        filebrowserBrowseUrl: 'browerserver.jsp',
+                                        filebrowserImageBrowseUrl: 'browerserver.jsp',
+                                        filebrowserUploadUrl: 'browerserver.jsp'
+                                    });
                                 </script>
+                                <div class="form-group">
+                                    <label for="mediuminput" class="col-sm-2 control-label">Số Lượng</label>
+                                    <div class="col-sm-8">
+                                        <input name="sp_soluong" type="number" class="form-control1" id="sp_soluong" placeholder="Medium Input">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="mediuminput" class="col-sm-2 control-label">Giá tiền Gốc</label>
+                                    <div class="col-sm-8">
+                                        <input name="sp_giatiengoc" type="number" class="form-control1" id="sp_giatiengoc" placeholder="Medium Input">
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="mediuminput" class="col-sm-2 control-label">Giá tiền</label>
                                     <div class="col-sm-8">
-                                        <input name="sp_giatien" type="number" class="form-control1" id="mediuminput" placeholder="Medium Input">
+                                        <input name="sp_giatien" type="number" class="form-control1" id="sp_giatien" placeholder="Medium Input">
                                     </div>
                                 </div>
 
@@ -291,15 +358,19 @@
                                         </script>
 
                                         <input name="link-image-full" id="link-image-full" value="">
-
-
                                     </div>
                                 </div>
 
-
                                 <div class="col-sm-5"></div>
-                                <button type="submit" class="btn-success btn"> Add </button>
-                                <button class="btn btn-warning"> Cancel </button>
+                                <script>
+                                    $(document).ready(function () {
+                                        $("#add-sanpham").on("click", function () {
+                                            $("#form-sanpham").submit();
+                                        });
+                                    });
+                                </script>
+                                <button id="add-sanpham" type="button" class="btn-success btn"> Add </button>
+                                <button type="button" class="btn btn-warning"> <a href="ThemPhieuNhap">Cancel </a> </button>
                             </form>
                         </div>
                     </div>

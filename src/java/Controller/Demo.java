@@ -5,10 +5,11 @@
  */
 package Controller;
 
-import DAO.KHACHHANG_DAO;
-import DTO.KHACHHANG;
+import DAO.SANPHAM_DAO;
+import DTO.SANPHAM;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,8 +18,10 @@ import java.text.ParseException;
 public class Demo {
 
     public static void main(String[] args) throws SQLException, ParseException {
-        KHACHHANG_DAO kh_dp = new KHACHHANG_DAO();
-        int check = kh_dp.checkKhachHang("tranleanhthe@.com", "0917068945");
-        System.out.println(check);
+        SANPHAM_DAO sp_dp = new SANPHAM_DAO();
+        ArrayList<SANPHAM> list = sp_dp.TimKiem("");
+        for(SANPHAM sp : list){
+             System.out.println(sp.getGiaGoc());
+        }
     }
 }

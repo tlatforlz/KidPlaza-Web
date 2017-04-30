@@ -14,21 +14,20 @@ import java.util.Date;
 public class PHIEUNHAP {
     private int ID;
     private String MaPhieuNhap;
-    private int tb_nhacungcap_ID;
     private String tb_nhacungcap_MaNhaCungCap;
     private Date NgayNhap;
 
     public PHIEUNHAP() {
     }
 
-    public PHIEUNHAP(int ID, String MaPhieuNhap, int tb_nhacungcap_ID, String tb_nhacungcap_MaNhaCungCap, Date NgayNhap) {
+    public PHIEUNHAP(int ID, String MaPhieuNhap, String tb_nhacungcap_MaNhaCungCap, Date NgayNhap) {
         this.ID = ID;
         this.MaPhieuNhap = MaPhieuNhap;
-        this.tb_nhacungcap_ID = tb_nhacungcap_ID;
         this.tb_nhacungcap_MaNhaCungCap = tb_nhacungcap_MaNhaCungCap;
         this.NgayNhap = NgayNhap;
     }
 
+  
     
     public int getID() {
         return ID;
@@ -46,14 +45,7 @@ public class PHIEUNHAP {
         this.MaPhieuNhap = MaPhieuNhap;
     }
 
-    public int getTb_nhacungcap_ID() {
-        return tb_nhacungcap_ID;
-    }
-
-    public void setTb_nhacungcap_ID(int tb_nhacungcap_ID) {
-        this.tb_nhacungcap_ID = tb_nhacungcap_ID;
-    }
-
+  
     public String getTb_nhacungcap_MaNhaCungCap() {
         return tb_nhacungcap_MaNhaCungCap;
     }

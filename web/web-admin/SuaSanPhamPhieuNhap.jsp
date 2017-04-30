@@ -1,3 +1,10 @@
+<%-- 
+    Document   : SuaSanPhamPhieuNhap
+    Created on : Apr 27, 2017, 7:22:50 PM
+    Author     : tranl
+--%>
+
+<%@page import="DTO.SANPHAM"%>
 <!DOCTYPE HTML>
 <%@page import="DTO.NHASANXUAT"%>
 <%@page import="DTO.NHASANXUAT"%>
@@ -8,7 +15,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head>
-        <title>Thêm Sản Phẩm</title>
+        <title>Chỉnh Sửa Sản Phẩm</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <!-- Bootstrap Core CSS -->
@@ -188,17 +195,19 @@
                 </div>
                 <!-- /.navbar-static-side -->
             </nav>
-
             <div id="page-wrapper">
                 <div class="graphs">
                     <div class="xs">
-                        <h3>Thêm sản phẩm</h3>
+                        <%
+                            SANPHAM sp_c = (SANPHAM) request.getAttribute("SanPham");
+                        %>
+                        <h3>Sửa sản phẩm <%=sp_c.getTenSanPham()%></h3>
                         <div class="tab-pane active" id="horizontal-form">
-                            <form class="form-horizontal" action="SanPham?yc=them" method="POST">
+                            <form class="form-horizontal" id="form-them" action="ChinhSuaChiTiet?MaSanPham=<%=sp_c.getMaSanPham()%>" method="POST">
                                 <div class="form-group">
                                     <label for="focusedinput" class="col-sm-2 control-label">Tên sản phẩm</label>
                                     <div class="col-sm-8">
-                                        <input name="sp_name" type="text" class="form-control1" id="focusedinput" placeholder="Tên sản phẩm">
+                                        <input name="sp_name" type="text" class="form-control1" id="focusedinput" value="<%=sp_c.getTenSanPham()%>">
                                     </div>
 
                                 </div>
@@ -208,7 +217,26 @@
                                         <%
                                             LOAISANPHAM_DAO daoLoaiSanPham = new LOAISANPHAM_DAO();
                                             ArrayList<LOAISANPHAM> listLoaiSP = daoLoaiSanPham.getLoaiSanPham();
+                                            ArrayList<LOAISANPHAM> listLoai = daoLoaiSanPham.getLoaiSanPhamTheMa(sp_c.getMaSanPham());
                                             for (LOAISANPHAM sp : listLoaiSP) {
+                                                boolean check = false;
+                                                for (LOAISANPHAM sp2 : listLoai) {
+
+                                                    if (sp.getMaLoaiSanPham().equals(sp2.getMaLoaiSanPham()) == true) {
+                                                        check = true;
+                                        %>
+
+                                        <div class="checkbox-inline1">
+                                            <label>
+                                                <input name="sp_loai" type="checkbox" value="<%=sp.getMaLoaiSanPham()%>" checked>
+                                                <%=sp.getTenLoaiSanPham()%>
+                                            </label>
+                                        </div>
+                                        <%
+                                                    break;
+                                                }
+                                            }
+                                            if (check == false) {
                                         %>
 
                                         <div class="checkbox-inline1">
@@ -217,7 +245,8 @@
                                                 <%=sp.getTenLoaiSanPham()%>
                                             </label>
                                         </div>
-                                        <%}%>
+                                        <%}
+                                            }%>
                                     </div>
                                 </div>
 
@@ -229,36 +258,74 @@
                                             <%
                                                 NHASANXUAT_DAO daoNhaSanXuat = new NHASANXUAT_DAO();
                                                 ArrayList<NHASANXUAT> listNhaSanXuat = daoNhaSanXuat.getNhaSanXuat();
-                                                for (NHASANXUAT sp : listNhaSanXuat) {%>
+                                                for (NHASANXUAT sp : listNhaSanXuat) {
+                                                    if (sp.getMaNSX().equals(sp_c.getTb_nhasanxuat_MaNSX()) == true) {
+                                            %>
+                                            <option value="<%=sp.getMaNSX()%>" selected> <%=sp.getTenNSX()%></option>
+                                            <%} else {
+                                            %>
                                             <option value="<%=sp.getMaNSX()%>"> <%=sp.getTenNSX()%></option>
-                                            <%}%>
+                                            <%}
+                                                }%>                                        
                                         </select>
                                     </div>
                                 </div>
 
+
                                 <div class="form-group">
                                     <label for="txtarea1" class="col-sm-2 control-label">Mô tả sản phẩm</label>
-                                    <div class="col-sm-8"><textarea name="sp_mota" id="txtarea1" cols="50" rows="4" class="form-control1"></textarea></div>
+                                    <div class="col-sm-8"><textarea  name="sp_mota" id="txtarea1" cols="50" rows="4" class="form-control1"></textarea></div>
                                 </div>
                                 <script>
             CKEDITOR.replace('sp_mota', {
-                filebrowserImageUploadUrl: 'browerserver.jsp',
-                filebrowserBrowseUrl: 'browerserver.jsp',
-                filebrowserImageBrowseUrl: 'browerserver.jsp',
-                filebrowserUploadUrl: 'browerserver.jsp'
+                filebrowserImageUploadUrl: '../browerserver.jsp',
+                filebrowserBrowseUrl: '../browerserver.jsp',
+                filebrowserImageBrowseUrl: '../browerserver.jsp',
+                filebrowserUploadUrl: '../browerserver.jsp'
             });
                                 </script>
+
+                                <script>
+                                    $(document).ready(function () {
+                                    <%
+                                        String s = sp_c.getMoTa();
+                                        String[] lines = s.split("\r\n");
+                                        String tong = "";
+                                        for (String temp : lines) {
+                                            tong += temp;
+                                        }
+                                    %>
+
+                                        CKEDITOR.instances["txtarea1"].setData('<%=tong%>');
+                                    });
+
+                                </script>
                                 <div class="form-group">
-                                    <label for="mediuminput" class="col-sm-2 control-label">Giá tiền</label>
+                                    <label for="mediuminput" class="col-sm-2 control-label">Số Lượng</label>
                                     <div class="col-sm-8">
-                                        <input name="sp_giatien" type="number" class="form-control1" id="mediuminput" placeholder="Medium Input">
+                                        <input name="sp_soluong" type="number" class="form-control1" id="sp_soluong" value="<%=sp_c.getSoLuong()%>">
+                                        <p id="sp_soluong_error" style="display:none; color:red">Vui lòng nhập số lượng</p>
                                     </div>
+                                    
+                                    
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="mediuminput" class="col-sm-2 control-label">Giá tiền gốc </label>
+                                    <div class="col-sm-8">
+                                        <input name="sp_giatiengoc" type="number" class="form-control1" id="mediuminput" value="<%=sp_c.getDonGia()%>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mediuminput" class="col-sm-2 control-label">Giá tiền bán</label>
+                                    <div class="col-sm-8">
+                                        <input name="sp_giatien" type="number" class="form-control1" id="mediuminput" value="<%=sp_c.getDonGia()%>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="mediuminput" class="col-sm-2 control-label">Khuyến mãi</label>
                                     <div class="col-sm-8">
-                                        <input name="sp_giamgia" type="number" class="form-control1" id="mediuminput" placeholder="Medium Input">
+                                        <input name="sp_giamgia" type="number" class="form-control1" id="mediuminput" value="<%=sp_c.getGiamGia()%>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -266,6 +333,13 @@
                                     <div class="col-sm-8">
                                         <label>Chọn ảnh làm ảnh đại diện : </label>
                                         <select name="link-image" id="link-image">
+                                            <option value="<%=sp_c.getHinhAnh()[0]%>" selected><%=sp_c.getHinhAnh()[0]%></option>
+                                            <%
+                                                String list[] = sp_c.getHinhAnh();
+                                                for (int i = 1; i < list.length; i++) {
+                                            %>
+                                            <option value="<%=sp_c.getHinhAnh()[i]%>"><%=sp_c.getHinhAnh()[i]%></option>
+                                            <%}%>
                                         </select>
                                     </div>
                                 </div>
@@ -283,23 +357,50 @@
                                                 $("#link-image-full").hide();
                                                 $("#pop-up").on("click", function () {
                                                     console.log("I click here");
-                                                    pop = window.open("loadimage.jsp", "Pop up image", "width=500, height=500");
+                                                    pop = window.open("../loadimage.jsp", "Pop up image", "width=500, height=500");
                                                     pop.focus();
-
                                                 });
                                             });
                                         </script>
 
-                                        <input name="link-image-full" id="link-image-full" value="">
+                                        <%
+                                            String list_anh = "";
+
+                                            for (int i = 0; i < sp_c.getHinhAnh().length; i++) {
+                                                if (i == sp_c.getHinhAnh().length - 1) {
+                                                    list_anh = list_anh + sp_c.getHinhAnh()[i];
+                                                } else {
+                                                    list_anh = list_anh + sp_c.getHinhAnh()[i] + ",";
+                                                }
+                                            }
+                                            SANPHAM.removeCharAt(list_anh, list_anh.length() - 1);
+                                        %>
+                                        <input name="link-image-full" id="link-image-full" value="<%=list_anh%>" />
 
 
                                     </div>
                                 </div>
 
-
+                                <script>
+                                    $(document).ready(function () {
+                                        $("#huythem").on('click', function () {
+                                            window.location.href = "ThemPhieuNhap";
+                                        });
+                                         
+                                        $("#them").on('click', function () {
+                                            var soluong = $("#sp_soluong").val();
+                                            if (soluong <= 0) {
+                                                $("#sp_soluong_error").css("display","block");
+                                            } else {
+                                                $("#form-them").submit();
+                                            }
+                                        });
+                                    });
+                                </script>
+                                <input style="display:none" value="abc" id="huythemvalue" name="yc">
                                 <div class="col-sm-5"></div>
-                                <button type="submit" class="btn-success btn"> Add </button>
-                                <button class="btn btn-warning"> Cancel </button>
+                                <button type="button" id="them" class="btn-success btn"> Thêm vào phiếu nhập </button>
+                                <button type="button" id="huythem" class="btn btn-warning"> Hủy </button>
                             </form>
                         </div>
                     </div>
@@ -309,6 +410,6 @@
         </div>
         <!-- /#wrapper -->
         <!-- Bootstrap Core JavaScript -->
-        <script src="js/bootstrap.min.js"></script>
+        <script src="web-admin/js/bootstrap.min.js"></script>
     </body>
 </html>

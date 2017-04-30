@@ -119,6 +119,7 @@ public class LOAISANPHAM_DAO {
         io.close();
         return list;
     }
+    
 
     public ArrayList<LOAISANPHAM> getLoaiSanPham() throws SQLException {
         IODatabase io = new IODatabase();

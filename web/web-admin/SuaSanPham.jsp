@@ -50,7 +50,7 @@
             }
         %>
         <div id="wrapper">
-            <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+           <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
@@ -81,17 +81,17 @@
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
                             <li>
-                                <a href="LoginAdmin"><i class="fa fa-dashboard fa-fw nav_icon"></i>Trang Chính</a>
+                                <a href="DoanhThu"><i class="fa fa-dashboard fa-fw nav_icon"></i>Trang Chính</a>
                             </li>
 
                             <li>
                                 <a href="#"><i></i>Thống Kê<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="AA">Doanh Thu</a>
+                                       <a href="DoanhThu">Doanh Thu</a>
                                     </li>
                                     <li>
-                                        <a href="AA">Lượt truy cập</a>
+                                        <a href="ThongKeTruyCap">Lượt truy cập</a>
                                     </li>
                                 </ul>
                                 <!-- /.nav-second-level -->
@@ -99,6 +99,12 @@
                             <li>
                                 <a href="#"><i></i>Sản Phẩm<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="ThemPhieuNhap">Thêm Phiếu Nhập</a>
+                                    </li>
+                                    <li>
+                                        <a href="DanhSachPhieuNhap">Danh sách Phiếu Nhập</a>
+                                    </li>
                                     <li>
                                         <a href="DanhSachSanPham">Danh sách sản phẩm</a>
                                     </li>
@@ -108,6 +114,7 @@
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>
+
                             <li>
                                 <a href="#"><i></i>Danh Mục<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
@@ -115,6 +122,18 @@
                                         <a href="DanhSachDanhMuc">Danh sách danh mục</a>
                                     </li>
 
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <li>
+                                <a href="#"><i></i>Nhà cung cấp<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="ThemNhaCungCap">Thêm nhà cung cấp</a>
+                                    </li>
+                                    <li>
+                                        <a href="DanhSachNhaCungCap">Danh sách nhà cung cấp</a>
+                                    </li>
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>
@@ -133,6 +152,19 @@
                                 <ul class="nav nav-second-level">
                                     <li>
                                         <a href="DanhSachKhachHang">Danh sách khách hàng</a>
+                                    </li>
+
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                             <li>
+                                <a href="#"><i></i>Tài khoản<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                     <li>
+                                        <a href="TaoTaiKhoanHeThong">Tạo tài khoản hệ thống </a>
+                                    </li>
+                                    <li>
+                                        <a href="DanhSachTaiKhoanHeThong">Danh sách tài khoản</a>
                                     </li>
 
                                 </ul>

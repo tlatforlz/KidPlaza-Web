@@ -1,9 +1,19 @@
 <%-- 
-    Document   : DanhSachSanPham
-    Created on : Mar 29, 2017, 12:32:15 AM
+    Document   : ChiTietPhieuNhap
+    Created on : May 1, 2017, 2:19:13 AM
     Author     : tranl
 --%>
 
+<%@page import="DTO.CHITIETPHIEUNHAP"%>
+<%@page import="DTO.PHIEUNHAP"%>
+<%@page import="DTO.NHACUNGCAP"%>
+<%@page import="DAO.NHACUNGCAP_DAO"%>
+<%@page import="DTO.KHACHHANG"%>
+<%@page import="DAO.KHACHHANG_DAO"%>
+<%@page import="DTO.BINHLUAN"%>
+<%@page import="DAO.BINHLUAN_DAO"%>
+<%@page import="DTO.LOAISANPHAM"%>
+<%@page import="DAO.LOAISANPHAM_DAO"%>
 <%@page import="java.util.Comparator"%>
 <%@page import="java.util.Collections"%>
 <%@page import="DTO.SANPHAM"%>
@@ -13,7 +23,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Danh sách sản phẩm </title>
+        <title>Chi Tiết Phiếu Nhập</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <!-- Bootstrap Core CSS -->
@@ -43,7 +53,9 @@
         <script src="js/ckeditor/ckeditor.js" type="text/javascript"></script>
     </head>
     <body>
-          <%
+
+
+        <%
             String username = (String) request.getSession().getAttribute("username");
             if (username == null) {
         %>
@@ -55,7 +67,7 @@
         %>
         <div id="wrapper">
             <!-- Navigation -->
-             <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
@@ -93,7 +105,7 @@
                                 <a href="#"><i></i>Thống Kê<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                       <a href="DoanhThu">Doanh Thu</a>
+                                        <a href="DoanhThu">Doanh Thu</a>
                                     </li>
                                     <li>
                                         <a href="ThongKeTruyCap">Lượt truy cập</a>
@@ -162,10 +174,10 @@
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>
-                             <li>
+                            <li>
                                 <a href="#"><i></i>Tài khoản<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
-                                     <li>
+                                    <li>
                                         <a href="TaoTaiKhoanHeThong">Tạo tài khoản hệ thống </a>
                                     </li>
                                     <li>
@@ -195,58 +207,95 @@
                 <!-- /.navbar-static-side -->
             </nav>
 
+
             <div id="page-wrapper" style="background-color: white">
                 <div class="graphs">
-                    <div class="xs">
-                        <%
-                            SANPHAM_DAO sp_dao = new SANPHAM_DAO();
-                            ArrayList<SANPHAM> list = sp_dao.get_ND();
 
-                        %>
-                        <h3>Danh mục sản phẩm</h3>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Mã sản phẩm</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Giá bán</th>
-                                    <th>Giảm giá</th>
-                                    <th>Ngày cập nhập</th>
-                                    <th>Nhà sản xuất</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%                                    int count = 1;
-                                    for (SANPHAM sp : list) {
+                    <div class="xs">
+                        <h3>Chi tiết phiếu nhập</h3>
+                        <hr>
+                        <div class="tab-pane active" id="horizontal-form">
+                            <form class="form-horizontal" id="formLuu" action="LuuPhieuNhap">
+                                <%
+                                    PHIEUNHAP ph = (PHIEUNHAP) request.getAttribute("PhieuNhap");
                                 %>
-                                <tr>
-                                    <td name="STT"> <%=count%></td>
-                                    <td name="MaSanPham"><%=sp.getMaSanPham()%></td>
-                                    <td name="TenSanPham"><%=sp.getTenSanPham()%></td>
-                                    <td name="GiaBan"><%=sp.getDonGiaString()%></td>
-                                    <td name="KhuyenMai"><%=sp.getGiamGiaString()%></td>
-                                    <td name="NgayCapNhap"><%=sp.getNgayCapNhap()%></td>
-                                    <td name="NhaSanXuat"><%=sp.getTb_nhasanxuat_MaNSX()%></td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary"><a target="_blank" style="color:black" href="ChiTietSanPham?MaSanPham=<%=sp.getMaSanPham()%>">Xem</a></button>
-                                        <button type="button" class="btn btn-default"><a target="_blank" style="color:black" href="ChinhSuaSanPham?MaSanPham=<%=sp.getMaSanPham()%>">Sửa</a></button>
-                                        <button type="button" class="btn btn-warning"><a style="color:black" href="XoaMaSanPham?MaSanPham=<%=sp.getMaSanPham()%>">Xóa</a></button>
-                                    </td>                                    
-                                </tr>
-                                <%count++;
-                                    }%>
-                            </tbody>
-                        </table>
+
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-2 control-label">Mã Phiếu Nhập</label>
+                                    <div class="col-sm-8">
+                                        <h4 style="margin-top:10px"><%=ph.getMaPhieuNhap()%></h4>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-2 control-label">Nhà cung cấp</label>
+                                    <div class="col-sm-8">
+                                        <h4 style="margin-top:10px"><%=ph.getTb_nhacungcap_MaNhaCungCap()%></h4>
+
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <%
+                                    ArrayList<CHITIETPHIEUNHAP> list = (ArrayList<CHITIETPHIEUNHAP>) request.getAttribute("ListChiTiet");
+                                    if (list.isEmpty()) {
+                                %>
+                                Chưa có chi tiết phiếu nhập
+                                <%} else {
+                                %>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Mã Sản Phẩm</th>
+                                            <th>Tên Sản Phẩm</th>
+                                            <th>Số Lượng</th>
+                                            <th>Đơn Giá</th>
+                                            <th>Tổng Tiền</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <%
+                                            int count = 1;
+                                            SANPHAM_DAO sp_dp = new SANPHAM_DAO();
+                                            int money = 0;
+                                            for (CHITIETPHIEUNHAP ct : list) {
+                                                money += (ct.getDonGiaNhap() * ct.getSoLuong());
+                                                SANPHAM sp = sp_dp.getSanPham(ct.getMaSanPham());
+                                        %>
+                                        <tr>    
+                                            <td><%=count%></td>
+                                            <td><%=ct.getMaSanPham()%></td>
+                                            <td><%=sp.getTenSanPham()%></td>
+                                            <td><%=ct.getSoLuong()%></td>
+                                            <td><%=SANPHAM.convertToVND(ct.getDonGiaNhap())%></td>
+                                            <td><%=SANPHAM.convertToVND(ct.getDonGiaNhap() * ct.getSoLuong())%></td>
+
+                                        </tr>
+                                        <% count++;
+                                            }
+                                        %>
+                                    </tbody>
+
+
+                                </table>
+                                <h4 style="margin-left:800px"> Tồng tiền : <%=SANPHAM.convertToVND(money)%></h4>
+
+                                <%}%>
+                            </form>
+                        </div>
+
                     </div>
                 </div>
-            </div>
+            </div> 
+            <!-- /#page-wrapper -->
         </div>
-        <!-- /#page-wrapper -->
-    </div>
-    <!-- /#wrapper -->
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-</body>
+        <!-- /#wrapper -->
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
+    </body>
 </html>
