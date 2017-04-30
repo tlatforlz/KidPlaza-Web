@@ -1,1 +1,2 @@
-# KidPlaze-Web
+# Kid Plaza Website.
+Project final
