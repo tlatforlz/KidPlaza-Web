@@ -43,13 +43,13 @@ public class SanPham extends HttpServlet {
 
             String sp_Loai[] = request.getParameterValues("sp_loai");
             String sp_NhaSanXuat = request.getParameter("sp_nhasanxuat");
-          //  String sp_DoTuoiYeuCau = request.getParameter("sp_dotuoiyeucau");
+            //  String sp_DoTuoiYeuCau = request.getParameter("sp_dotuoiyeucau");
 
             String mota_utf8 = request.getParameter("sp_mota");
 
             String sp_MoTa = new String(mota_utf8.getBytes("ISO-8859-1"), "UTF-8");
             String sp_GiaTien = request.getParameter("sp_giatien");
-            String sp_GiamGia = request.getParameter("sp_giamgia");
+
             String sp_AnhChinh = request.getParameter("link-image");
             String sp_ListAnh = request.getParameter("link-image-full");
             Random rand = new Random();
@@ -59,18 +59,11 @@ public class SanPham extends HttpServlet {
             String[] ListAnh = sp_ListAnh.split(",");
             SANPHAM_DAO sp_dao = new SANPHAM_DAO();
 
-            sp_dao.insert_SP(MaSP, sp_Name, Integer.parseInt(sp_GiaTien), Integer.parseInt(sp_GiamGia), sp_MoTa, sp_NhaSanXuat);
+            sp_dao.insert_SP(MaSP, sp_Name, Integer.parseInt(sp_GiaTien), 0, sp_MoTa, sp_NhaSanXuat);
             sp_dao.insert_LoaiSanPham(sp_Loai, MaSP);
-            sp_dao.insert_khoAnh(MaSP, sp_AnhChinh, ListAnh);
-
-            request.setAttribute("sp_name", sp_Name);
-            request.setAttribute("sp_loai", sp_Loai);
-            request.setAttribute("sp_nhasanxuat", sp_NhaSanXuat);
-            request.setAttribute("sp_mota", sp_MoTa);
-            request.setAttribute("sp_giatien", sp_GiaTien);
-            request.setAttribute("sp_giamgia", sp_GiamGia);
-            request.setAttribute("sp_anhchinh", sp_AnhChinh);
-            request.setAttribute("sp_listanh", ListAnh);
+            if (!"".equals(sp_AnhChinh) && !"".equals(sp_ListAnh)) {
+                sp_dao.insert_khoAnh(MaSP, sp_AnhChinh, ListAnh);
+            }
         }
         RequestDispatcher rd = request.getRequestDispatcher("DanhSachSanPham");
         rd.forward(request, response);

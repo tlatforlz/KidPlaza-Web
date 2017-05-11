@@ -36,38 +36,38 @@
         $(document).ready(function () {
 
             function onProductThumbActive(elm) {
-                var item = jQuery(elm);
+                var item = $(elm);
                 if (item.hasClass('active'))
                     return;
-                jQuery('.product-view .more-views img, .product-view .more-views-horizontal img').removeClass('active');
+                $('.product-view .more-views img, .product-view .more-views-horizontal img').removeClass('active');
                 item.addClass('active');
-                jQuery('.product-view img.img-main').fadeOut(100, function () {
-                    jQuery(this).attr('src', item.attr('data-small')).attr('data-large', item.attr('data-large')).fadeIn(100);
+                $('.product-view img.img-main').fadeOut(100, function () {
+                    $(this).attr('src', item.attr('data-small')).attr('data-large', item.attr('data-large')).fadeIn(100);
                 });
                 initImageZoomSl();
             }
-            jQuery('.product-view .more-views img, .product-view .more-views-horizontal img').on('click', function (e) {
+            $('.product-view .more-views img, .product-view .more-views-horizontal img').on('click', function (e) {
                 onProductThumbActive(e.target);
             });
-            jQuery('.product-view .more-views img, .product-view .more-views-horizontal img').hover(function (e) {
+            $('.product-view .more-views img, .product-view .more-views-horizontal img').hover(function (e) {
                 onProductThumbActive(e.target);
             });
-            jQuery('.owl-carousel').each(function (i, slider) {
-                var id = jQuery(slider).attr('id');
+            $('.owl-carousel').each(function (i, slider) {
+                var id = $(slider).attr('id');
                 if (!id || !window[id])
                     return;
-                jQuery(slider).owlCarousel(window[id]);
+               $(slider).owlCarousel(window[id]);
             });
             var carCount = jQuery('.product-img-box #thumbs').find('a').length;
             if (carCount <= 4) {
-                jQuery('.product-img-box .more-views-nav').hide();
+                $('.product-img-box .more-views-nav').hide();
             }
-            jQuery(".product-img-box #carousel-up").on("click", function () {
-                if (!jQuery(".product-img-box #thumbs").is(':animated')) {
-                    var bottom = jQuery(".product-img-box #thumbs > a:last-child");
-                    var clone = jQuery(".product-img-box #thumbs > a:last-child").clone();
+            $(".product-img-box #carousel-up").on("click", function () {
+                if (!$(".product-img-box #thumbs").is(':animated')) {
+                    var bottom = $(".product-img-box #thumbs > a:last-child");
+                    var clone = $(".product-img-box #thumbs > a:last-child").clone();
                     clone.prependTo(".product-img-box #thumbs");
-                    jQuery(".product-img-box #thumbs").animate({"top": "-=85"}, 0).stop().animate({"top": '+=85'}, 250, function () {
+                    $(".product-img-box #thumbs").animate({"top": "-=85"}, 0).stop().animate({"top": '+=85'}, 250, function () {
                         bottom.remove();
                     });
                     clone.on('click', function (e) {
@@ -78,14 +78,14 @@
                     });
                 }
             });
-            jQuery(".product-img-box #carousel-down").on("click", function () {
-                if (!jQuery(".product-img-box #thumbs").is(':animated')) {
-                    var top = jQuery(".product-img-box #thumbs > a:first-child");
-                    var clone = jQuery(".product-img-box #thumbs > a:first-child").clone();
+            $(".product-img-box #carousel-down").on("click", function () {
+                if (!$(".product-img-box #thumbs").is(':animated')) {
+                    var top = $(".product-img-box #thumbs > a:first-child");
+                    var clone = $(".product-img-box #thumbs > a:first-child").clone();
                     clone.appendTo(".product-img-box #thumbs");
-                    jQuery(".product-img-box #thumbs").animate({"top": '-=85'}, 250, function () {
+                    $(".product-img-box #thumbs").animate({"top": '-=85'}, 250, function () {
                         top.remove();
-                        jQuery(".product-img-box #thumbs").animate({"top": "+=85"}, 0);
+                        $(".product-img-box #thumbs").animate({"top": "+=85"}, 0);
                     });
                     clone.on('click', function (e) {
                         onProductThumbActive(e.target);
@@ -95,15 +95,15 @@
                     });
                 }
             });
-            var carhCount = jQuery('.product-img-box #thumbs_horizontal').find('a').length;
-            jQuery(".product-img-box #thumbs_horizontal").width(90 * carhCount);
+            var carhCount = $('.product-img-box #thumbs_horizontal').find('a').length;
+            $(".product-img-box #thumbs_horizontal").width(90 * carhCount);
             if (carhCount <= 4) {
-                jQuery('.product-img-box .horizontal-nav').hide();
+                $('.product-img-box .horizontal-nav').hide();
             }
-            jQuery(".product-img-box #carousel-horizontal-up").on("click", function () {
-                var bottom = jQuery(".product-img-box #thumbs_horizontal > a:last-child");
-                if (!jQuery(".product-img-box #thumbs_horizontal").is(':animated')) {
-                    var clone = jQuery(".product-img-box #thumbs_horizontal > a:last-child").clone();
+            $(".product-img-box #carousel-horizontal-up").on("click", function () {
+                var bottom = $(".product-img-box #thumbs_horizontal > a:last-child");
+                if (!$(".product-img-box #thumbs_horizontal").is(':animated')) {
+                    var clone = $(".product-img-box #thumbs_horizontal > a:last-child").clone();
                     clone.prependTo(".product-img-box #thumbs_horizontal");
                     clone.on('click', function (e) {
                         onProductThumbActive(e.target);
@@ -112,14 +112,14 @@
                         onProductThumbActive(e.target);
                     });
                 }
-                jQuery(".product-img-box #thumbs_horizontal").animate({"left": "-=85"}, 0).stop().animate({"left": '+=85'}, 250, function () {
+                $(".product-img-box #thumbs_horizontal").animate({"left": "-=85"}, 0).stop().animate({"left": '+=85'}, 250, function () {
                     bottom.remove();
                 });
             });
-            jQuery(".product-img-box #carousel-horizontal-down").on("click", function () {
-                var top = jQuery(".product-img-box #thumbs_horizontal > a:first-child");
-                if (!jQuery(".product-img-box #thumbs_horizontal").is(':animated')) {
-                    var clone = jQuery(".product-img-box #thumbs_horizontal > a:first-child").clone();
+            $(".product-img-box #carousel-horizontal-down").on("click", function () {
+                var top = $(".product-img-box #thumbs_horizontal > a:first-child");
+                if (!$(".product-img-box #thumbs_horizontal").is(':animated')) {
+                    var clone = $(".product-img-box #thumbs_horizontal > a:first-child").clone();
                     clone.appendTo(".product-img-box #thumbs_horizontal");
                     clone.on('click', function (e) {
                         onProductThumbActive(e.target);
@@ -128,9 +128,9 @@
                         onProductThumbActive(e.target);
                     });
                 }
-                jQuery(".product-img-box #thumbs_horizontal").animate({"left": '-=85'}, 250, function () {
+                $(".product-img-box #thumbs_horizontal").animate({"left": '-=85'}, 250, function () {
                     top.remove();
-                    jQuery(".product-img-box #thumbs_horizontal").animate({"left": "+=85"}, 0);
+                    $(".product-img-box #thumbs_horizontal").animate({"left": "+=85"}, 0);
                 });
             });
         });
@@ -154,7 +154,10 @@
     </script>
     <body class="container catalog-product-view catalog-product-view"><a class="sr-only" href="#content">Skip to main content</a>
         <section class="mt-container">
-
+            <%
+                SANPHAM_DAO sp_dp = new SANPHAM_DAO();
+                sp_dp.updateLuotXem(sp.getMaSanPham());
+            %>
             <section class="mt-wrapper">
                 <div class="wrapper">
                     <div class="container col1-layout" id="content">
@@ -234,17 +237,29 @@
 
 
                                                         </div>
-                                                        <div id="view-in-stock" class="php-in-stock"> <label class="labelstatus">Tình trạng: <span class="availability">Còn hàng</span> </label>
 
+                                                        <input name="check" id="checkSoLuong" value="<%=sp.getSoLuong()%>" style="display:none">
+                                                        <script>
+                                                            $(document).ready(function () {
+                                                                var soluong = $("#checkSoLuong").val();
+                                                                if (soluong <= 0) {
+                                                                    $("#view-in-stock").css("display", "none");
+                                                                    $("#view-in-stock-over").css("display", "block");
+                                                                    $("#out-of-stock-over").css("display", "block");
+                                                                    $("#out-of-stock").css("display", "none");
+                                                                }
+                                                            });
+                                                        </script>
+                                                        <div id="view-in-stock" class="php-in-stock"> 
+                                                            <label class="labelstatus">Tình trạng: <span class="availability">Còn hàng (Còn <%=sp.getSoLuong()%> sản phẩm)</span> </label>
                                                         </div>
-
+                                                       
                                                     </div>
 
-                                                    <div class="lineprices out-of-stock php-out-of-stock" style="display: none;">
+                                                    <div id="out-of-stock-over" class="lineprices out-of-stock php-out-of-stock" style="display: none;">
                                                         <p>Đã bán hết</p>
                                                     </div>
-                                                    <div class="right-desc">
-
+                                                    <div class="right-desc" id="out-of-stock">
                                                         <div id="add-to-cart" class="add-to-cart">
                                                             <div class="row">
                                                                 <div class="col-lg-7">
@@ -287,7 +302,7 @@
                                                                                     var num = convert(reverse(money_str));
                                                                                     num = reverse(num);
                                                                                     if (num[0] === ".") {
-                                                                                        num.substr(1, num.length);
+                                                                                        num = num.substr(1, num.length);
                                                                                     }
 
                                                                                     $("#total-price").text(num);
@@ -327,7 +342,7 @@
                                                                                     var num = convert(reverse(money_str));
                                                                                     num = reverse(num);
                                                                                     if (num[0] === ".") {
-                                                                                        num.substr(1, num.length);
+                                                                                        num = num.substr(1, num.length);
                                                                                     }
 
                                                                                     $("#total-price").text(num);

@@ -16,6 +16,15 @@ import java.util.ArrayList;
  * @author tranl
  */
 public class CHITIETDATHANG_DAO {
+    
+    public int TongTienDonHang(String MaDonDatHang) throws SQLException{
+        ArrayList<CHITIETDATHANG> list = getListCT(MaDonDatHang);
+        int GiaTien = 0;
+        for(CHITIETDATHANG ct : list){
+            GiaTien += (ct.getDonGia() * ct.getSoLuong());
+        }
+        return GiaTien;
+    }
     public void InsertChiTietDDH(CHITIETDATHANG ct) throws SQLException{
         IODatabase io = new IODatabase();
         io.conn();

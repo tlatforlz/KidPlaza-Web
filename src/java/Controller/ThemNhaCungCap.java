@@ -34,6 +34,11 @@ public class ThemNhaCungCap extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+        String yc = request.getParameter("yc");
+        if (yc.equals("Them")) {
+            RequestDispatcher rd = request.getRequestDispatcher("web-admin/ThemNhaCungCap.jsp");
+            rd.forward(request, response);
+        }
         String NhaCungCap = request.getParameter("NhaCungCap");
         NhaCungCap = new String(NhaCungCap.getBytes("ISO-8859-1"), "UTF-8");
         // create id provition
@@ -43,7 +48,7 @@ public class ThemNhaCungCap extends HttpServlet {
             request.setAttribute("checkNCC", "true");
             RequestDispatcher rd = request.getRequestDispatcher("ThemPhieuNhap");
             rd.forward(request, response);
-        } else {
+        } else if(checkNCC == false){
             int Max = ncc_dp.MaxNCC();
             String maNCC = "NCC" + Max;
             ncc_dp.InsertNhaCungCap(maNCC, NhaCungCap);

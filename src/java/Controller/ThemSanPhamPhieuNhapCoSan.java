@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import DAO.PHIEUNHAP_DAO;
 import DAO.SANPHAM_DAO;
 import DTO.SANPHAM;
 import java.io.IOException;
@@ -37,9 +38,18 @@ public class ThemSanPhamPhieuNhapCoSan extends HttpServlet {
             throws ServletException, IOException, SQLException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
         String yc = request.getParameter("yc");
+        String MaPhieuNhap = request.getParameter("MaPhieuNhap");
         if (yc.equals("huy")) {
-            RequestDispatcher rd = request.getRequestDispatcher("ThemPhieuNhap");
-            rd.forward(request, response);
+            PHIEUNHAP_DAO ph_dp = new PHIEUNHAP_DAO();
+            String MaPhieuNhapHT = ph_dp.returnPhieuNhapMax();
+            if (MaPhieuNhapHT.equals(MaPhieuNhap)) {
+                RequestDispatcher rd = request.getRequestDispatcher("ThemPhieuNhap");
+                rd.forward(request, response);
+            } else {
+                String URL = "SuaChiTietPhieuNhap?MaPhieuNhap=" + MaPhieuNhap;
+                RequestDispatcher rs = request.getRequestDispatcher(URL);
+                rs.forward(request, response);
+            }
         } else {
             String MaSanPham = request.getParameter("MaSanPham");
 
@@ -84,17 +94,34 @@ public class ThemSanPhamPhieuNhapCoSan extends HttpServlet {
 //            sp_dao.XoaLoaiSanPham(MaSanPham);
 //            sp_dao.XoaSanPham(MaSanPham);
             // insert lai
-            boolean checkSanPham = sp_dao.checkDupMau(MaSanPham);
+            boolean checkSanPham = sp_dao.checkDupMau(MaSanPham, MaPhieuNhap);
             if (checkSanPham == true) {
-                sp_dao.addSoLuongMauDup(MaSanPham, soLuong);
+                sp_dao.addSoLuongMauDup(MaSanPham, MaPhieuNhap, soLuong);
             } else {
-                sp_dao.insert_SP_Mau(MaSanPham, sp_Name, giatien, giamgia, sp_MoTa, sp_NhaSanXuat);
-                sp_dao.setSoLuong(MaSanPham, soLuong);
-                sp_dao.insert_LoaiSanPham_Mau(sp_Loai, MaSanPham);
-                sp_dao.insert_khoAnh_Mau(MaSanPham, sp_AnhChinh, ListAnh);
+                SANPHAM sp = new SANPHAM();
+                sp.setMaSanPham(MaSanPham);
+                sp.setTenSanPham(sp_Name);
+                sp.setMaPhieuNhap(MaPhieuNhap);
+                sp.setMoTa(sp_MoTa);
+                sp.setDonGia(giatien);
+                sp.setGiaGoc(Integer.parseInt(sp_GiaGoc));
+                sp.setGiamGia(giamgia);
+                sp.setTb_nhasanxuat_MaNSX(sp_NhaSanXuat);
+                sp.setSoLuong(soLuong);
+                sp_dao.InsertSanPham(sp);
+                sp_dao.insert_LoaiSanPham_Mau(sp_Loai, MaSanPham, MaPhieuNhap);
+                sp_dao.insert_khoAnh_Mau(MaSanPham, MaPhieuNhap, sp_AnhChinh, ListAnh);
             }
-            RequestDispatcher rd = request.getRequestDispatcher("ThemPhieuNhap");
-            rd.forward(request, response);
+            PHIEUNHAP_DAO ph_dp = new PHIEUNHAP_DAO();
+            String MaPhieuNhapHT = ph_dp.returnPhieuNhapMax();
+            if (MaPhieuNhapHT.equals(MaPhieuNhap)) {
+                RequestDispatcher rd = request.getRequestDispatcher("ThemPhieuNhap");
+                rd.forward(request, response);
+            } else {
+                String URL = "XemChiTietSuaPhieuNhap?MaPhieuNhap=" + MaPhieuNhap;
+                RequestDispatcher rs = request.getRequestDispatcher(URL);
+                rs.forward(request, response);
+            }
         }
     }
 

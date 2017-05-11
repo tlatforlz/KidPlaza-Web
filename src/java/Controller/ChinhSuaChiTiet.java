@@ -5,9 +5,10 @@
  */
 package Controller;
 
+import DAO.PHIEUNHAP_DAO;
 import DAO.SANPHAM_DAO;
+import DTO.SANPHAM;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
@@ -37,7 +38,7 @@ public class ChinhSuaChiTiet extends HttpServlet {
             throws ServletException, IOException, SQLException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
         String MaSanPham = request.getParameter("MaSanPham");
-
+        String MaPhieuNhap = request.getParameter("MaPhieuNhap");
         String name_utf8 = request.getParameter("sp_name");
         String sp_Name = new String(name_utf8.getBytes("ISO-8859-1"), "UTF-8");
 
@@ -56,21 +57,42 @@ public class ChinhSuaChiTiet extends HttpServlet {
         int soLuong = Integer.parseInt(sp_SoLuong);
         String[] ListAnh = sp_ListAnh.split(",");
         SANPHAM_DAO sp_dao = new SANPHAM_DAO();
-        sp_dao.setGiaGocMau(MaSanPham, Integer.parseInt(sp_GiaBan));
+
         // xoa san pham
         // xoa danh sach loai
         // xoa kho anh
-        sp_dao.XoaKhoAnhMau(MaSanPham);
-        sp_dao.XoaLoaiSanPhamMau(MaSanPham);
-        sp_dao.XoaSanPhamMau(MaSanPham);
+        sp_dao.XoaKhoAnhMau(MaSanPham, MaPhieuNhap);
+        sp_dao.XoaLoaiSanPhamMau(MaSanPham, MaPhieuNhap);
+        sp_dao.XoaSanPhamMau(MaSanPham, MaPhieuNhap);
         // insert lai
-        sp_dao.insert_SP_Mau(MaSanPham, sp_Name, Integer.parseInt(sp_GiaTien), Integer.parseInt(sp_GiamGia), sp_MoTa, sp_NhaSanXuat);
-        sp_dao.setSoLuong(MaSanPham, soLuong);
-        sp_dao.insert_LoaiSanPham_Mau(sp_Loai, MaSanPham);
-        sp_dao.insert_khoAnh_Mau(MaSanPham, sp_AnhChinh, ListAnh);
+        SANPHAM sp = new SANPHAM();
+        sp.setMaSanPham(MaSanPham);
+        sp.setMaPhieuNhap(MaPhieuNhap);
+        sp.setMoTa(sp_MoTa);
+        sp.setTenSanPham(sp_Name);
+        sp.setTb_nhasanxuat_MaNSX(sp_NhaSanXuat);
+        sp.setGiaGoc(Integer.parseInt(sp_GiaBan));
+        sp.setDonGia(Integer.parseInt(sp_GiaTien));
+        sp.setGiamGia(Integer.parseInt(sp_GiamGia));
+        sp.setSoLuong(soLuong);
+        sp_dao.InsertSanPham(sp);
+//        sp_dao.insert_SP_Mau(MaSanPham, sp_Name, Integer.parseInt(sp_GiaTien), Integer.parseInt(sp_GiamGia), sp_MoTa, sp_NhaSanXuat);
+//        sp_dao.setGiaGocMau(MaSanPham, Integer.parseInt(sp_GiaBan));
+//        sp_dao.setMaPhieuNhap(MaPhieuNhap, MaSanPham);
+//        sp_dao.setSoLuong(MaSanPham, soLuong);
+        sp_dao.insert_LoaiSanPham_Mau(sp_Loai, MaSanPham, MaPhieuNhap);
+        sp_dao.insert_khoAnh_Mau(MaSanPham, MaPhieuNhap, sp_AnhChinh, ListAnh);
 
-        RequestDispatcher rd = request.getRequestDispatcher("ThemPhieuNhap");
-        rd.forward(request, response);
+        PHIEUNHAP_DAO ph_dp = new PHIEUNHAP_DAO();
+        String MaPhieuNhapHT = ph_dp.returnPhieuNhapMax();
+        if (MaPhieuNhapHT.equals(MaPhieuNhap)) {
+            RequestDispatcher rs = request.getRequestDispatcher("ThemPhieuNhap");
+            rs.forward(request, response);
+        } else {
+            String URL = "XemChiTietSuaPhieuNhap?MaPhieuNhap=" + MaPhieuNhap;
+            RequestDispatcher rs = request.getRequestDispatcher(URL);
+            rs.forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -48,7 +48,6 @@
                         var image = link[j].toString();
                         window.opener.$('#link-image').append('<option value="' + image + '">' + image.substring(48) + '</option>');
                     }
-                    window.opener.$('#link-image').show();
                     window.opener.$('#link-image-full').val(link);
                     window.opener.$('#cke_77_textInput').val(link[0]);
                     
@@ -94,7 +93,7 @@
                     File imageFile = list_file[i];
                     String imageFileName = new String(imageFile.getName());
                     String imageName = imageFileName;
-                    imageFileName = "http://localhost:9090/DemoThuongMaiDienTu/Image/" + imageFileName;
+                    imageFileName = "/Image/" + imageFileName;
                     i++;
 
             %>

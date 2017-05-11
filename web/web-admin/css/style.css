@@ -219,12 +219,12 @@ body a{
   min-width: 0;
 }
 .navbar-default.sidebar {
-  background-color: #000;
-  font-family: 'Roboto', sans-serif;
+  background-color: #000 !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 nav.top1.navbar.navbar-default.navbar-static-top {
-  background-color:rgb(6, 217, 149);
-  font-family: 'Roboto', sans-serif;
+  background-color:rgb(6, 217, 149) !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 .navbar-default .navbar-brand {
   color: #fff !important;
@@ -242,8 +242,8 @@ i.nav_icon {
   margin-right:6px;
 }
 .sidebar ul li a{
-  color: #999;
-  font-size:14px;
+  color: #999 !important;
+  font-size:14px !important;
 }
 .form-control {
   background: none !important;
@@ -260,7 +260,7 @@ form.navbar-form.navbar-right {
 ul.nav.navbar-nav.navbar-right {
   height: 51px;
 }
-.sidebar-nav.navbar-collapse {
+.sidebar-nav.navbar-collapse !important{
   margin: 2em 0 0 0;
 }
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
@@ -1934,8 +1934,8 @@ label.round {
   color: #000;
 }
 .sidebard-panel .feed-element, .media-body, .sidebard-panel p {
-  font-size:0.85em;
-  color:#999;
+  font-size:0.85em !important;
+  color:#999 !important;
 }
 .example_6{
 	margin:1em 0 0 0;

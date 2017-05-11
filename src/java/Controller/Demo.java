@@ -5,8 +5,8 @@
  */
 package Controller;
 
-import DAO.SANPHAM_DAO;
-import DTO.SANPHAM;
+import DAO.DONDATHANG_DAO;
+import DTO.DONDATHANG;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -18,10 +18,12 @@ import java.util.ArrayList;
 public class Demo {
 
     public static void main(String[] args) throws SQLException, ParseException {
-        SANPHAM_DAO sp_dp = new SANPHAM_DAO();
-        ArrayList<SANPHAM> list = sp_dp.TimKiem("");
-        for(SANPHAM sp : list){
-             System.out.println(sp.getGiaGoc());
+        DONDATHANG_DAO ddh_dp = new DONDATHANG_DAO();
+        ArrayList<DONDATHANG> list = ddh_dp.getListThanhCong();
+        for(DONDATHANG dh : list){
+            System.out.println(dh.getMaDonDatHang());
+            System.out.println(ddh_dp.LoiNhuan(dh.getMaDonDatHang()));
         }
+        System.out.println(list.size());
     }
 }

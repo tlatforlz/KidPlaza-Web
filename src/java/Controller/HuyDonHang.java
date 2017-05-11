@@ -5,9 +5,14 @@
  */
 package Controller;
 
+import DAO.CHITIETDATHANG_DAO;
 import DAO.DONDATHANG_DAO;
+import DAO.SANPHAM_DAO;
+import DTO.CHITIETDATHANG;
+import DTO.SANPHAM;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -44,7 +49,14 @@ public class HuyDonHang extends HttpServlet {
         String ThanhToan_buf = request.getParameter("ThanhToan");
         int ThanhToan = Integer.parseInt(ThanhToan_buf);
         DONDATHANG_DAO ddh_dp = new DONDATHANG_DAO();
-
+        CHITIETDATHANG_DAO ct_dp = new CHITIETDATHANG_DAO();
+        ArrayList<CHITIETDATHANG> list_ct = ct_dp.getListCT(MaDonHang);
+        SANPHAM_DAO sp_dp = new SANPHAM_DAO();
+        
+        for(CHITIETDATHANG ct : list_ct){
+            SANPHAM sp = sp_dp.getSanPham(ct.getTb_sanpham_MaSanPham());
+            sp_dp.setSoLuong(ct.getTb_sanpham_MaSanPham(), sp.getSoLuong() + ct.getSoLuong());
+        }
         if (ThanhToan == 1) {
             // Hoan Tien
             // Xoa

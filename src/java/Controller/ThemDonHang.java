@@ -58,6 +58,28 @@ public class ThemDonHang extends HttpServlet {
         KHACHHANG kh = kh_dp.getKhachHang(Email);
         GIOHANG_DAO gh_dp = new GIOHANG_DAO();
         ArrayList<GIOHANG> list_gh = gh_dp.getList(kh.getMaKhachHang());
+        // check soluong : 
+        SANPHAM_DAO sp_dp = new SANPHAM_DAO();
+        boolean checkGioHang = true;
+        for (GIOHANG gh : list_gh) {
+            int soLuong = sp_dp.SoLuongSanPham(gh.getMaSanPham());
+            if (soLuong - gh.getSoLuong() < 0) {
+                checkGioHang = false;
+                break;
+            }
+        }
+        if (checkGioHang == false) {
+            //
+            request.setAttribute("DatHang", "false");
+            RequestDispatcher rd = request.getRequestDispatcher("GioHang.jsp");
+            rd.forward(request, response);
+        } else {
+            for (GIOHANG gh : list_gh) {
+                int soLuong = sp_dp.SoLuongSanPham(gh.getMaSanPham());
+                sp_dp.setSoLuong(gh.getMaSanPham(), soLuong - gh.getSoLuong());
+            }
+        }
+
         shipregion = new String(shipregion.getBytes("ISO-8859-1"), "UTF-8");
         String DiaChiGiaoHang = "";
         if (address.equals("none")) {
@@ -69,7 +91,6 @@ public class ThemDonHang extends HttpServlet {
         }
         // String sp_MoTa = new String(mota_utf8.getBytes("ISO-8859-1"), "UTF-8");
 
-        SANPHAM_DAO sp_dp = new SANPHAM_DAO();
         int TongTien = 0;
         for (GIOHANG gh : list_gh) {
             SANPHAM sp = sp_dp.getSanPham(gh.getMaSanPham());
@@ -104,17 +125,17 @@ public class ThemDonHang extends HttpServlet {
             }
             request.setAttribute("MaDonDatHang", ddh.getMaDonDatHang());
             request.setAttribute("DiaChiGiaoHang", DiaChiGiaoHang);
-            
-           // KHACHHANG_DAO kh_dp = new KHACHHANG_DAO();
-            for(GIOHANG gh : list_gh){
+
+            // KHACHHANG_DAO kh_dp = new KHACHHANG_DAO();
+            for (GIOHANG gh : list_gh) {
                 gh_dp.XoaDonHang(kh.getMaKhachHang(), gh.getMaSanPham());
             }
             request.setAttribute("DonDatHang", ddh);
-           // request.setAttribute("ThongBao", "success");
+            // request.setAttribute("ThongBao", "success");
             RequestDispatcher rd = request.getRequestDispatcher("ChiTietDonHang.jsp");
             rd.forward(request, response);
         } else {
-            
+
             ArrayList<CHITIETDATHANG> list_ct = new ArrayList<CHITIETDATHANG>();
             for (GIOHANG gh : list_gh) {
                 CHITIETDATHANG ct = new CHITIETDATHANG();

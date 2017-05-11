@@ -40,12 +40,12 @@ public class HuyPhieuNhap extends HttpServlet {
         
         SANPHAM_DAO sp_dp = new SANPHAM_DAO();
         PHIEUNHAP_DAO pn_dp = new PHIEUNHAP_DAO();
-        
-        ArrayList<SANPHAM> list = sp_dp.getListSP_temp();
+        String MaPhieuNhap = request.getParameter("MaPhieuNhap");
+        ArrayList<SANPHAM> list = sp_dp.getListSP_temp(MaPhieuNhap);
         for(SANPHAM sp : list){
-            sp_dp.XoaKhoAnhMau(sp.getMaSanPham());
-            sp_dp.XoaLoaiSanPhamMau(sp.getMaSanPham());
-            sp_dp.XoaSanPhamMau(sp.getMaSanPham());
+            sp_dp.XoaKhoAnhMau(sp.getMaSanPham(), MaPhieuNhap);
+            sp_dp.XoaLoaiSanPhamMau(sp.getMaSanPham(), MaPhieuNhap);
+            sp_dp.XoaSanPhamMau(sp.getMaSanPham(), MaPhieuNhap);
         }
         
         RequestDispatcher rd = request.getRequestDispatcher("LoginAdmin");

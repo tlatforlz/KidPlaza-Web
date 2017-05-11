@@ -13,9 +13,7 @@
     <head>
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
         <script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
-
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="//www.kidsplaza.vn/skin/frontend/kidsplaza/2015/css/font-awesome.min.css" />
@@ -529,11 +527,17 @@
                                                 <%
                                                     String tinhtrang = "";
                                                     if (dh.getTinhTrangGiao() == 0) {
-                                                        tinhtrang = "Đang xử lý";
+                                                        tinhtrang = "Đang đợi duyệt đơn hàng";
                                                     } else if (dh.getTinhTrangGiao() == 1) {
-                                                        tinhtrang = "Đang giao hàng";
+                                                        tinhtrang = "Đã xác nhận đơn hàng";
                                                     } else if (dh.getTinhTrangGiao() == 2) {
-                                                        tinhtrang = "Đã giao";
+                                                        tinhtrang = "Đơn hàng đang chuẩn bị";
+                                                    } else if (dh.getTinhTrangGiao() == 3) {
+                                                        tinhtrang = "Đang giao hàng";
+                                                    } else if (dh.getTinhTrangGiao() == 4) {
+                                                        tinhtrang = "Đã giao thành công";
+                                                    } else if (dh.getTinhTrangGiao() == 5) {
+                                                        tinhtrang = "Đã hoàn trả";
                                                     }
                                                     if (dh.getDaHuy() == 1) {
                                                         tinhtrang = "Đã hủy đơn hàng";
@@ -556,7 +560,7 @@
                                                 <td name="TongTien"><%=SANPHAM.convertToVND(dh.getTongTien())%> VNĐ</td>
                                                 <td name="DiaChi"><%=dh.getDiaChiGiaoHang()%></td>
                                                 <td>
-                                                    <button type="button" class="btn btn-primary"><a target="_blank" style="color:black" href="XemChiTietDonHang?MaDonHang=<%=dh.getMaDonDatHang()%>">Xem</a></button>
+                                                    <button type="button" class="btn btn-primary"><a style="color:black" href="XemChiTietDonHang?MaDonHang=<%=dh.getMaDonDatHang()%>">Xem</a></button>
                                                 </td>                                    
                                             </tr>
                                             <%count++;

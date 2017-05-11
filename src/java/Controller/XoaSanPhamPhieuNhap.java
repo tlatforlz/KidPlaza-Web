@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import DAO.PHIEUNHAP_DAO;
 import DAO.SANPHAM_DAO;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -35,12 +36,24 @@ public class XoaSanPhamPhieuNhap extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         String MaSanPham = request.getParameter("MaSanPham");
+        String MaPhieuNhap = request.getParameter("MaPhieuNhap");
         SANPHAM_DAO sp_dp = new SANPHAM_DAO();
-        sp_dp.XoaKhoAnhMau(MaSanPham);
-        sp_dp.XoaLoaiSanPhamMau(MaSanPham);
-        sp_dp.XoaSanPhamMau(MaSanPham);
-        RequestDispatcher rq = request.getRequestDispatcher("ThemPhieuNhap");
-        rq.forward(request, response);
+        
+        int ID = sp_dp.return_IDSanPham_Mau(MaSanPham, MaPhieuNhap);
+        sp_dp.XoaKhoAnhMau(MaSanPham, MaPhieuNhap);
+        sp_dp.XoaLoaiSanPhamMau(MaSanPham, MaPhieuNhap);
+        sp_dp.XoaSanPhamMau(MaSanPham, MaPhieuNhap);
+        PHIEUNHAP_DAO ph_dp = new PHIEUNHAP_DAO();
+        String MaPhieuNhapHT = ph_dp.returnPhieuNhapMax();
+        if (MaPhieuNhapHT.equals(MaPhieuNhap)) {
+            RequestDispatcher rs = request.getRequestDispatcher("ThemPhieuNhap");
+            rs.forward(request, response);
+        } else {
+            String URL = "XemChiTietSuaPhieuNhap?MaPhieuNhap=" + MaPhieuNhap;
+            RequestDispatcher rs = request.getRequestDispatcher(URL);
+            rs.forward(request, response);
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

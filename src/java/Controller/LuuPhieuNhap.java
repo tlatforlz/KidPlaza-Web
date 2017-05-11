@@ -40,15 +40,16 @@ public class LuuPhieuNhap extends HttpServlet {
         String nhacungcap = request.getParameter("nhacungcap");
         String MaPhieuNhap = request.getParameter("MaPhieuNhap");
         String MaNhaCungCap = request.getParameter("sp_nhacungcap");
+        
         if (nhacungcap.equals("")) {
             SANPHAM_DAO sp_dp = new SANPHAM_DAO();
-            ArrayList<SANPHAM> list = sp_dp.getListSP_temp();
+            ArrayList<SANPHAM> list = sp_dp.getListSP_temp(MaPhieuNhap);
             PHIEUNHAP_DAO ph_dp = new PHIEUNHAP_DAO();
 
             ph_dp.ThemPhieuNhap(MaPhieuNhap, MaNhaCungCap);
             for (SANPHAM sp : list) {
                 // them phieu nhap first
-                sp_dp.ChuyenMauToChinh(sp.getMaSanPham());
+                sp_dp.ChuyenMauToChinh(sp.getMaSanPham(), MaPhieuNhap);
             }
         }
         RequestDispatcher rd = request.getRequestDispatcher("ThemPhieuNhap");

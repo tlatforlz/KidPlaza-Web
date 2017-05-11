@@ -89,7 +89,7 @@
                     File imageFile = list_file[i];
                     String imageFileName = new String(imageFile.getName());
                     String imageName = imageFileName;
-                    imageFileName = "http://localhost:9090/DemoThuongMaiDienTu/Image/" + imageFileName;
+                    imageFileName = "/Image/" + imageFileName;
                     i++;
 
             %>

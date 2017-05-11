@@ -36,10 +36,12 @@ public class ChinhSuaSanPhamPhieuNhap extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
 
+        String MaPhieuNhap = request.getParameter("MaPhieuNhap");
         String MaSanPham = request.getParameter("MaSanPham");
         SANPHAM_DAO sp_dp = new SANPHAM_DAO();
-        SANPHAM sp = sp_dp.getSanPham_Mau(MaSanPham);
+        SANPHAM sp = sp_dp.getSanPham_Mau(MaSanPham, MaPhieuNhap);
         request.setAttribute("SanPham", sp);
+        request.setAttribute("MaPhieuNhap", MaPhieuNhap);
         RequestDispatcher rd = request.getRequestDispatcher("web-admin/SuaSanPhamPhieuNhap.jsp");
         rd.forward(request, response);
     }

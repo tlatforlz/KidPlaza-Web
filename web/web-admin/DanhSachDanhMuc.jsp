@@ -4,6 +4,7 @@
     Author     : tranl
 --%>
 
+<%@page import="DAO.NHANVIEN_DAO"%>
 <%@page import="DTO.LOAISANPHAM"%>
 <%@page import="DAO.LOAISANPHAM_DAO"%>
 <%@page import="java.util.Comparator"%>
@@ -45,8 +46,8 @@
         <script src="js/ckeditor/ckeditor.js" type="text/javascript"></script>
     </head>
     <body>
-        
-          <%
+
+        <%
             String username = (String) request.getSession().getAttribute("username");
             if (username == null) {
         %>
@@ -55,10 +56,12 @@
 
         <%
             }
+            NHANVIEN_DAO nv_dp = new NHANVIEN_DAO();
+            String Quyen = nv_dp.getQuyen(username);
         %>
         <div id="wrapper">
             <!-- Navigation -->
-           <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
@@ -88,6 +91,88 @@
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
+                            <%
+                                if (Quyen.equals("CTV")) {
+                            %>
+
+                            <li>
+                                <a href="#"><i></i>Sản Phẩm<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="ThemPhieuNhap">Thêm Phiếu Nhập</a>
+                                    </li>
+                                    <li>
+                                        <a href="DanhSachPhieuNhap">Danh sách Phiếu Nhập</a>
+                                    </li>
+                                    <li>
+                                        <a href="DanhSachSanPham">Danh sách sản phẩm</a>
+                                    </li>
+                                    <li>
+                                        <a href="ThemSanPham">Thêm sản phẩm</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+
+                            <li>
+                                <a href="#"><i></i>Danh Mục<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="DanhSachDanhMuc">Danh sách danh mục</a>
+                                    </li>
+
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <li>
+                                <a href="#"><i></i>Nhà cung cấp<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="ThemNhaCungCap?yc=Them">Thêm nhà cung cấp</a>
+                                    </li>
+                                    <li>
+                                        <a href="DanhSachNhaCungCap">Danh sách nhà cung cấp</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <li>
+                                <a href="#"><i></i>Bình luận<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="DanhSachBinhLuan">Danh sách bình luận</a>
+                                    </li>
+
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <li>
+                                <a href="#"><i></i>Khách hàng<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="DanhSachKhachHang">Danh sách khách hàng</a>
+                                    </li>
+
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+
+                            <li>
+                                <a href="#"><i></i>Đơn Đặt Hàng<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="DuyetDonDatHang">Duyệt Đơn Đặt Hàng</a>
+                                    </li>
+                                    <li>
+                                        <a href="DanhSachDonDatHang">Danh Sách Đơn Đặt Hàng</a>
+                                    </li>
+
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <%
+                            } else {
+                            %>
                             <li>
                                 <a href="DoanhThu"><i class="fa fa-dashboard fa-fw nav_icon"></i>Trang Chính</a>
                             </li>
@@ -96,7 +181,7 @@
                                 <a href="#"><i></i>Thống Kê<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                       <a href="DoanhThu">Doanh Thu</a>
+                                        <a href="DoanhThu">Doanh Thu</a>
                                     </li>
                                     <li>
                                         <a href="ThongKeTruyCap">Lượt truy cập</a>
@@ -137,7 +222,7 @@
                                 <a href="#"><i></i>Nhà cung cấp<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="ThemNhaCungCap">Thêm nhà cung cấp</a>
+                                        <a href="ThemNhaCungCap?yc=Them">Thêm nhà cung cấp</a>
                                     </li>
                                     <li>
                                         <a href="DanhSachNhaCungCap">Danh sách nhà cung cấp</a>
@@ -165,10 +250,10 @@
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>
-                             <li>
+                            <li>
                                 <a href="#"><i></i>Tài khoản<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
-                                     <li>
+                                    <li>
                                         <a href="TaoTaiKhoanHeThong">Tạo tài khoản hệ thống </a>
                                     </li>
                                     <li>
@@ -191,6 +276,7 @@
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>
+                            <%}%>
                         </ul>
                     </div>
                     <!-- /.sidebar-collapse -->

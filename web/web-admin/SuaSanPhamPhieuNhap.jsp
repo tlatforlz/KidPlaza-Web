@@ -4,6 +4,7 @@
     Author     : tranl
 --%>
 
+<%@page import="DAO.NHANVIEN_DAO"%>
 <%@page import="DTO.SANPHAM"%>
 <!DOCTYPE HTML>
 <%@page import="DTO.NHASANXUAT"%>
@@ -54,6 +55,8 @@
 
         <%
             }
+            NHANVIEN_DAO nv_dp = new NHANVIEN_DAO();
+            String Quyen = nv_dp.getQuyen(username);
         %>
         <div id="wrapper">
             <nav class="top1 navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -86,6 +89,88 @@
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
+                            <%
+                                if (Quyen.equals("CTV")) {
+                            %>
+
+                            <li>
+                                <a href="#"><i></i>Sản Phẩm<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="ThemPhieuNhap">Thêm Phiếu Nhập</a>
+                                    </li>
+                                    <li>
+                                        <a href="DanhSachPhieuNhap">Danh sách Phiếu Nhập</a>
+                                    </li>
+                                    <li>
+                                        <a href="DanhSachSanPham">Danh sách sản phẩm</a>
+                                    </li>
+                                    <li>
+                                        <a href="ThemSanPham">Thêm sản phẩm</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+
+                            <li>
+                                <a href="#"><i></i>Danh Mục<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="DanhSachDanhMuc">Danh sách danh mục</a>
+                                    </li>
+
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <li>
+                                <a href="#"><i></i>Nhà cung cấp<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="ThemNhaCungCap?yc=Them">Thêm nhà cung cấp</a>
+                                    </li>
+                                    <li>
+                                        <a href="DanhSachNhaCungCap">Danh sách nhà cung cấp</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <li>
+                                <a href="#"><i></i>Bình luận<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="DanhSachBinhLuan">Danh sách bình luận</a>
+                                    </li>
+
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <li>
+                                <a href="#"><i></i>Khách hàng<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="DanhSachKhachHang">Danh sách khách hàng</a>
+                                    </li>
+
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+
+                            <li>
+                                <a href="#"><i></i>Đơn Đặt Hàng<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="DuyetDonDatHang">Duyệt Đơn Đặt Hàng</a>
+                                    </li>
+                                    <li>
+                                        <a href="DanhSachDonDatHang">Danh Sách Đơn Đặt Hàng</a>
+                                    </li>
+
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+                            <%
+                            } else {
+                            %>
                             <li>
                                 <a href="DoanhThu"><i class="fa fa-dashboard fa-fw nav_icon"></i>Trang Chính</a>
                             </li>
@@ -94,7 +179,7 @@
                                 <a href="#"><i></i>Thống Kê<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                       <a href="DoanhThu">Doanh Thu</a>
+                                        <a href="DoanhThu">Doanh Thu</a>
                                     </li>
                                     <li>
                                         <a href="ThongKeTruyCap">Lượt truy cập</a>
@@ -135,7 +220,7 @@
                                 <a href="#"><i></i>Nhà cung cấp<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
-                                        <a href="ThemNhaCungCap">Thêm nhà cung cấp</a>
+                                        <a href="ThemNhaCungCap?yc=Them">Thêm nhà cung cấp</a>
                                     </li>
                                     <li>
                                         <a href="DanhSachNhaCungCap">Danh sách nhà cung cấp</a>
@@ -163,10 +248,10 @@
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>
-                             <li>
+                            <li>
                                 <a href="#"><i></i>Tài khoản<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
-                                     <li>
+                                    <li>
                                         <a href="TaoTaiKhoanHeThong">Tạo tài khoản hệ thống </a>
                                     </li>
                                     <li>
@@ -189,6 +274,7 @@
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>
+                            <%}%>
                         </ul>
                     </div>
                     <!-- /.sidebar-collapse -->
@@ -200,10 +286,11 @@
                     <div class="xs">
                         <%
                             SANPHAM sp_c = (SANPHAM) request.getAttribute("SanPham");
+                            String MaPhieuNhap = (String) request.getAttribute("MaPhieuNhap");
                         %>
                         <h3>Sửa sản phẩm <%=sp_c.getTenSanPham()%></h3>
                         <div class="tab-pane active" id="horizontal-form">
-                            <form class="form-horizontal" id="form-them" action="ChinhSuaChiTiet?MaSanPham=<%=sp_c.getMaSanPham()%>" method="POST">
+                            <form class="form-horizontal" id="form-them" action="ChinhSuaChiTiet?MaSanPham=<%=sp_c.getMaSanPham()%>&MaPhieuNhap=<%=MaPhieuNhap%>" method="POST">
                                 <div class="form-group">
                                     <label for="focusedinput" class="col-sm-2 control-label">Tên sản phẩm</label>
                                     <div class="col-sm-8">
@@ -306,14 +393,14 @@
                                         <input name="sp_soluong" type="number" class="form-control1" id="sp_soluong" value="<%=sp_c.getSoLuong()%>">
                                         <p id="sp_soluong_error" style="display:none; color:red">Vui lòng nhập số lượng</p>
                                     </div>
-                                    
-                                    
+
+
                                 </div>
 
                                 <div class="form-group">
                                     <label for="mediuminput" class="col-sm-2 control-label">Giá tiền gốc </label>
                                     <div class="col-sm-8">
-                                        <input name="sp_giatiengoc" type="number" class="form-control1" id="mediuminput" value="<%=sp_c.getDonGia()%>">
+                                        <input name="sp_giatiengoc" type="number" class="form-control1" id="mediuminput" value="<%=sp_c.getGiaGoc()%>">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -383,14 +470,11 @@
 
                                 <script>
                                     $(document).ready(function () {
-                                        $("#huythem").on('click', function () {
-                                            window.location.href = "ThemPhieuNhap";
-                                        });
-                                         
+
                                         $("#them").on('click', function () {
                                             var soluong = $("#sp_soluong").val();
                                             if (soluong <= 0) {
-                                                $("#sp_soluong_error").css("display","block");
+                                                $("#sp_soluong_error").css("display", "block");
                                             } else {
                                                 $("#form-them").submit();
                                             }
@@ -400,7 +484,10 @@
                                 <input style="display:none" value="abc" id="huythemvalue" name="yc">
                                 <div class="col-sm-5"></div>
                                 <button type="button" id="them" class="btn-success btn"> Thêm vào phiếu nhập </button>
-                                <button type="button" id="huythem" class="btn btn-warning"> Hủy </button>
+                                <%
+                                    String URL = "XemChiTietSuaPhieuNhap?MaPhieuNhap=" + MaPhieuNhap;
+                                %>
+                                <button type="button" id="huythem" class="btn btn-warning"> <a style="color:black" href=<%=URL%>>Hủy</a> </button>
                             </form>
                         </div>
                     </div>

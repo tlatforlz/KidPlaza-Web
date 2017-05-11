@@ -62,6 +62,12 @@
     <%
         }
     %>
+    
+    <script>
+        if(${DatHang == "false"}){
+            alert("Đặt hàng không thành công");
+        }
+    </script>
     <body class=" catalog-category-view categorypath-do-choi-cho-be-html category-do-choi-cho-be"> <a class="sr-only" href="#content">Skip to main content</a>
         <section class="mt-container">
             <div class="mt-menu mt-effect-slide">

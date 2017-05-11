@@ -14,6 +14,7 @@ import java.util.Date;
 public class SANPHAM {
 
     private int ID;
+    private String MaPhieuNhap;
     private String MaSanPham;
     private String TenSanPham;
     private int GiaGoc;
@@ -40,6 +41,16 @@ public class SANPHAM {
 
     private String tb_nhasanxuat_MaNSX;
 
+    public String getMaPhieuNhap() {
+        return MaPhieuNhap;
+    }
+
+    public void setMaPhieuNhap(String MaPhieuNhap) {
+        this.MaPhieuNhap = MaPhieuNhap;
+    }
+
+    
+    
     public SANPHAM(int ID, String MaSanPham, String TenSanPham, int DonGia, int GiamGia, Date NgayCapNhap, String MoTa, int LuotXem, int LuotBinhLuan, int SoLanMua, String tb_nhasanxuat_MaNSX) {
         this.ID = ID;
         this.MaSanPham = MaSanPham;

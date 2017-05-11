@@ -84,11 +84,10 @@
             <section class="mt-wrapper">
                 <div class="wrapper">
                     <%
-
                         GIOHANG_DAO gh_dao = new GIOHANG_DAO();
                         KHACHHANG_DAO kh_dao = new KHACHHANG_DAO();
                         String email = (String) request.getSession().getAttribute("Email");
-                            KHACHHANG kh = kh_dao.getKhachHang(email);
+                        KHACHHANG kh = kh_dao.getKhachHang(email);
                         String MaKhach = kh.getMaKhachHang();
                         ArrayList<GIOHANG> list = gh_dao.getList(MaKhach);
                     %>
@@ -360,12 +359,21 @@
                                                                                                         }
 
                                                                                                         String kq_gh = "";
-                                                                                                        if (giaohang == 0) {
-                                                                                                            kq_gh = "Đơn hàng đang được xử lý.";
-                                                                                                        } else if (giaohang == 1) {
-                                                                                                            kq_gh = "Đơn hàng đang được giao.";
-                                                                                                        } else {
-                                                                                                            kq_gh = "Đon hàng đã giao thành công.";
+
+                                                                                                        if (dh.getTinhTrangGiao() == 0) {
+                                                                                                            kq_gh = "Đang đợi duyệt đơn hàng";
+                                                                                                        } else if (dh.getTinhTrangGiao() == 1) {
+                                                                                                            kq_gh = "Đã xác nhận đơn hàng";
+                                                                                                        } else if (dh.getTinhTrangGiao() == 2) {
+                                                                                                            kq_gh = "Đơn hàng đang chuẩn bị";
+                                                                                                        } else if (dh.getTinhTrangGiao() == 3) {
+                                                                                                            kq_gh = "Đang giao hàng";
+                                                                                                        } else if (dh.getTinhTrangGiao() == 4) {
+                                                                                                            kq_gh = "Đã giao thành công";
+                                                                                                        } else if (dh.getTinhTrangGiao() == 5) {
+                                                                                                            kq_gh = "Đã hoàn trả";
+                                                                                                        }else if(dh.getTinhTrangGiao() == 6){
+                                                                                                            kq_gh = "Yêu cầu trả sản phẩm";
                                                                                                         }
                                                                                                         if (dh.getDaHuy() == 1) {
                                                                                                             kq_tt = "Đã hủy đơn hàng";
@@ -463,17 +471,22 @@
                                                                                     <div id="checkout-review-submit">
                                                                                         <div class="buttons-set" id="review-buttons-container">
                                                                                             <%
-                                                                                                if (dh.getDaThanhToan() == 0 && dh.getDaHuy() == 0) {
+                                                                                                if (dh.getDaThanhToan() == 0 && dh.getDaHuy() == 0 && dh.getTinhTrangGiao() <= 2) {
                                                                                             %>
                                                                                             <button type="submit" title="Đặt hàng" class="btn btn-kid btn-checkout pull-right" onclick="submitForm()">
                                                                                                 <i class="glyphicon glyphicon-shopping-cart"></i> Thanh Toán</button>
                                                                                                 <%}%>
                                                                                                 <%
-                                                                                                    if (dh.getDaHuy() == 0) {
+                                                                                                    if (dh.getDaHuy() == 0 && dh.getTinhTrangGiao() <= 2) {
                                                                                                 %>
                                                                                             <button style="margin-right:20px" id="huydh" type="button" title="Hủy đơn hàng" class="btn btn-kid btn-checkout pull-right" onclick="HuyDonHang">
                                                                                                 <i class="glyphicon glyphicon-shopping-cart"></i> Hủy Đơn Hàng</button>
 
+                                                                                            <%}%>
+                                                                                            <%
+                                                                                                if (dh.getTinhTrangGiao() == 4) {
+                                                                                            %>
+                                                                                            <button class="btn btn-kid"><a href="DoiTraSanPham?MaDonHang=<%=dh.getMaDonDatHang()%>" style="color:black">Đổi trả sản phẩm</a></button>
                                                                                             <%}%>
                                                                                         </div>
                                                                                     </div>
@@ -579,7 +592,13 @@
                                                                                                                     name = "";
                                                                                                                 }
                                                                                                             %>
-                                                                                                            <a href="ThongTinTaiKhoan?KhachHang=<%=Email%>" class="account-icon-link"> <span class="ico-user"><span></span></span> <span class="link-box"> Xin chào <%=name%><strong> <span id="account_link_id">Tài khoản</span> <span class="caret"></span> </strong>
+                                                                                                            <a href="ThongTinTaiKhoan?KhachHang=<%=Email%>" class="account-icon-link"> 
+                                                                                                                <span class="ico-user"><span></span></span> 
+                                                                                                                <span class="link-box"> Xin chào <%=name%>
+                                                                                                                    <strong> 
+                                                                                                                        <span id="account_link_id">Tài khoản</span> 
+                                                                                                                        <span class="caret"></span>
+                                                                                                                    </strong>
                                                                                                                 </span>
                                                                                                             </a>
                                                                                                         </p>

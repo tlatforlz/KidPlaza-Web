@@ -35,16 +35,18 @@ public class ThemChiTietPhieuNhap extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String yc = request.getParameter("yc");
+        String MaPhieuNhap = request.getParameter("MaPhieuNhap");
+        request.setAttribute("MaPhieuNhap", MaPhieuNhap);
         if (yc.equals("sanphammoi")) {
             RequestDispatcher rd = request.getRequestDispatcher("web-admin/SanPhamMoi.jsp");
             rd.forward(request, response);
         } else if (yc.equals("sanphamsan")) {
             ArrayList<SANPHAM> list = new ArrayList<SANPHAM>();
-             request.setAttribute("List", list);
+            request.setAttribute("List", list);
             RequestDispatcher rd = request.getRequestDispatcher("web-admin/SanPhamCoSan.jsp");
             rd.forward(request, response);
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

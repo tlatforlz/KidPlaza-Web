@@ -36,10 +36,12 @@ public class TimSanPhamThem extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+        String MaPhieuNhap = request.getParameter("MaPhieuNhap");
         String sp_Name = request.getParameter("sp_name");
         SANPHAM_DAO sp_dp = new SANPHAM_DAO();
         ArrayList<SANPHAM> list_sp = sp_dp.TimKiem(sp_Name);
         request.setAttribute("List", list_sp);
+        request.setAttribute("MaPhieuNhap", MaPhieuNhap);
         RequestDispatcher rs = request.getRequestDispatcher("web-admin/SanPhamCoSan.jsp");
         rs.forward(request, response);
     }
