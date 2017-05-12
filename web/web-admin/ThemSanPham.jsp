@@ -350,6 +350,7 @@
                                     </div>
                                     <%}%>
                                     <p style="display: none; color:red" id="sp_loai-error2" name="sp_loai-error2">Vui lòng chọn danh mục sản phẩm</p>
+
                                 </div>
                             </div>
 
@@ -423,7 +424,18 @@
                                 </div>
                             </div>
 
-
+                            <script>
+                                $(document).ready(function () {
+                                    $("#btn-add").on('click', function () {
+                                        var sl = $("input:checked").length;
+                                        if (sl === 0) {
+                                            $("#sp_loai-error2").css("display", "block");
+                                        } else {
+                                            $("#sp_loai-error2").css("display", "none");
+                                        }
+                                    });
+                                });
+                            </script>
                             <div class="col-sm-5"></div>
                             <button id="btn-add" type="submit" class="btn-success btn"> Add </button>
                             <button class="btn btn-warning"> Cancel </button>

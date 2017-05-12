@@ -17,7 +17,21 @@ import java.util.ArrayList;
  */
 public class KHACHHANG_DAO {
 
-   
+    public void insertToken(String username, String token) throws SQLException{
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "UPDATE tb_khachhang SET Token = '" + token + "' WHERE Email = '" + username + "'";
+        io.getStatement().executeUpdate(sql);
+        io.close();
+    }
+    public void XacThuc(String username, String token) throws SQLException{
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "UPDATE tb_khachhang SET XacThuc = 1 WHERE Email = '" + username +"' AND Token = '" + token + "'";
+        io.getStatement().executeUpdate(sql);
+        io.close();
+    }
+    
     public void updateAddress(KHACHHANG kh) throws SQLException{
         IODatabase io = new IODatabase();
         io.conn();
@@ -56,11 +70,27 @@ public class KHACHHANG_DAO {
         io.close();
     }
 
+    
+    public boolean checkXT(String email) throws SQLException{
+        boolean check =  false;
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "SELECT XacThuc FROM tb_khachhang WHERE Email = '" + email + "'";
+        ResultSet rs = io.getResultSet(sql);
+        if(rs.next()){
+            int xt = rs.getInt(1);
+            if(xt == 1){
+                check = true;
+            }
+        }
+        io.close();
+        return check;
+    }
     public boolean Login(String email, String password) throws SQLException {
         boolean checkLogin = false;
         IODatabase io = new IODatabase();
         io.conn();
-        String sql = "SELECT COUNT(ID) FROM db_cuahangdochoi.tb_khachhang WHERE Email = '" + email + "' and MatKhau = '" + password + "'";
+        String sql = "SELECT COUNT(ID) FROM db_cuahangdochoi.tb_khachhang WHERE Email = '" + email + "' and MatKhau = '" + password + "' AND XacThuc = 1";
         ResultSet rs = io.getResultSet(sql);
         if (rs.next()) {
             int check = rs.getInt(1);

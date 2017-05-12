@@ -6,8 +6,10 @@
 package Controller;
 
 import DAO.KHACHHANG_DAO;
+import DAO.SendMail;
 import DTO.KHACHHANG;
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,16 +47,6 @@ public class TaoTaiKhoan extends HttpServlet {
         KHACHHANG_DAO kh_dao = new KHACHHANG_DAO();
         int check = kh_dao.checkKhachHang(Email, SoDienThoai);
 
-//        if (check == 2) {
-//            check = 6;
-//        } else if (check == 3) {
-//            check = 7;
-//        } else if (check == 4) {
-//            check = 8;
-//        } else {
-//            check = 5;
-//        }
-
         if (check == 1) {
             //insert - jump to index.jsp
             KHACHHANG kh = new KHACHHANG();
@@ -65,11 +57,13 @@ public class TaoTaiKhoan extends HttpServlet {
             kh.setMatKhau(MatKhau);
 
             kh_dao.InsertKH(kh);
-            request.setAttribute("KhachHang", kh);
-            HttpSession session = request.getSession();
-            session.setAttribute("Email", Email);
-            RequestDispatcher rd = request.getRequestDispatcher("ChiTietKhachHang.jsp");
-            rd.forward(request, response);
+            SecureRandom random = new SecureRandom();
+            byte bytes[] = new byte[20];
+            random.nextBytes(bytes);
+            String token = bytes.toString();
+            kh_dao.insertToken(Email, token);
+            String msg = "http://localhost:9090/DemoThuongMaiDienTu/XacThuc?username=" + Email + "&token=" + token;
+            SendMail.sendMail(Email, "Xác thực đăng ký tài khoản", msg);
         }
         request.setAttribute("status", "none");
         request.setAttribute("check", check);

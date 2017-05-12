@@ -44,7 +44,6 @@ public class ThongTinTaiKhoan extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("ChiTietKhachHang.jsp");
             rd.forward(request, response);
         } else {
-            
             request.setAttribute("status", "none");
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
             rd.forward(request, response);

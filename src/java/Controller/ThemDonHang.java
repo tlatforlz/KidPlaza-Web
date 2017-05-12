@@ -85,6 +85,11 @@ public class ThemDonHang extends HttpServlet {
         if (address.equals("none")) {
             // d.c hien tai
             DiaChiGiaoHang = kh.getHoKhachHang() + " - " + kh.getTenKhachHang() + " - " + kh.getDiaChi() + " - " + kh.getTinh() + " - " + kh.getQuocGia() + " - " + kh.getSoDienThoai();
+            if(kh.getDiaChi() == null || kh.getTinh() == null || kh.getQuocGia() == null){
+                request.setAttribute("address", "false");
+                RequestDispatcher rd = request.getRequestDispatcher("ThongTinTaiKhoan?KhachHang=" + kh.getEmail());
+                rd.forward(request, response);
+            }
         } else {
             // d.c moi.
             DiaChiGiaoHang = shipfirstname + " - " + shiplastname + " - " + shipstreet + " - " + shipregion + " - " + shipphone;

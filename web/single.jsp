@@ -398,7 +398,7 @@
                                                                                     <span id="arrow-bottom" class="input-group-btn">
                                                                                         <button class="btn btn-info btn-qty" type="button">-</button>
                                                                                     </span> 
-                                                                                    <input type="text" autocomplete="off" max="99" min="1" name="qty" id="qty" maxlength="2" value="1" title="Số lượng" class="form-control qty " /> 
+                                                                                    <input readonly type="text" autocomplete="off" max="99" min="1" name="qty" id="qty" maxlength="2" value="1" title="Số lượng" class="form-control qty " /> 
                                                                                     <span id="arrow-top" class="input-group-btn"><button class="btn btn-info btn-qty" type="button">+</button>
                                                                                     </span>
                                                                                 </div>

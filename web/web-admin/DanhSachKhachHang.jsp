@@ -312,14 +312,13 @@
                             <tbody>
                                 <%                                    int count = 1;
                                     for (KHACHHANG bl : list) {
-
                                 %>
                                 <tr>    
 
                                     <td name="STT"> <%=count%></td>
                                     <td name="MaKhachHang"><%=bl.getMaKhachHang()%></td>
                                     <td name="Ho"><%=bl.getHoKhachHang()%></td>
-                                    <td name="Ten"><%=bl.get TenKhachHang  ()%></td>
+                                    <td name="Ten"><%=bl.getTenKhachHang()%></td>
                                     <td name="DiaChi"><%=(bl.getDiaChi() + " " + bl.getTinh() + " " + bl.getQuocGia())%></td>
                                     <td name="Email"><%=bl.getEmail()%></td>
                                     <td name="SoDienThoai"><%=bl.getSoDienThoai()%></td>

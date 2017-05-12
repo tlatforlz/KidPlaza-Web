@@ -88,8 +88,10 @@
                                                                 if (status.equals("none")) {
                                                             %>
                                                             <p class="required">* Phải nhập thông tin</p>
-                                                            <%} else {%> 
+                                                            <%} if(status.equals("wrong")) {%> 
                                                             <p class="required">* Tài khoản hoặc mật khẩu không đúng</p>
+                                                            <%} if(status.equals("xacthuc")) {%>
+                                                             <p class="required">* Phải xác thực tài khoản</p>
                                                             <%}%>
                                                         </div>
                                                         <div class="buttons-set"> 
@@ -142,7 +144,8 @@
                                                                                     phone_number: {
                                                                                         required: true,
                                                                                         number: true,
-                                                                                        minlength: 9
+                                                                                        minlength: 9,
+                                                                                        maxlength:12
                                                                                     },
                                                                                     firstname: {
                                                                                         required: true
@@ -166,13 +169,16 @@
                                                                                     phone_number: {
                                                                                         required: "Vui lòng nhập số điện thoại",
                                                                                         number: "Số điện thoại không đúng",
-                                                                                        minlength: "Số điện thoại không đúng"
+                                                                                        minlength: "Số điện thoại không đúng",
+                                                                                        maxlength: "Số điện thoại không đúng"
                                                                                     },
                                                                                     firstname: {
-                                                                                        required: "Vui lòng nhập họ"
+                                                                                        required: "Vui lòng nhập họ",
+                                                                                        regex: "Không hợp lệ"
                                                                                     },
                                                                                     lastname: {
-                                                                                        required: "Vui lòng nhập tên"
+                                                                                        required: "Vui lòng nhập tên",
+                                                                                        regex:"Không hợp lệ"
                                                                                     },
                                                                                     email_address: {
                                                                                         required: "Vui lòng nhập email",
@@ -221,13 +227,13 @@
                                                                                         <div class="field name-firstname col-sm-12"> 
                                                                                             <label class="required control-label" for="firstname"><em>*</em>Tên</label>
                                                                                             <div class="input-box col-sm-10">
-                                                                                                <input type="text" id="firstname" id="firstname" name="firstname" value="" title="Tên" maxlength="255" class="input-sm form-control required-entry">
+                                                                                                <input type="text" id="firstname" id="firstname" name="firstname" value="" title="Tên" maxlength="255" class="input-sm form-control required-entry" required>
                                                                                             </div>
                                                                                         </div>
                                                                                         <div class="field name-lastname col-sm-12"> 
                                                                                             <label for="lastname" class="required control-label"><em>*</em>Họ</label>
                                                                                             <div class="input-box"> 
-                                                                                                <input type="text" id="lastname" id="lastname" name="lastname" value="" title="Họ" maxlength="255" class="input-sm form-control required-entry">
+                                                                                                <input type="text" id="lastname" id="lastname" name="lastname" value="" title="Họ" maxlength="255" class="input-sm form-control required-entry" required>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>

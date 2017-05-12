@@ -95,11 +95,8 @@
                                         KHACHHANG kh = kh_dao.getKhachHang(email);
                                         String MaKhach = kh.getMaKhachHang();
                                         ArrayList<GIOHANG> list = gh_dao.getList(MaKhach);
-
                                     %>
-
                                 </div>
-
                                 <div class="checkout">
                                     <ol class="opc" id="checkoutSteps">
                                         <li class="col-lg-4 col-md-4  col-sm-4  col-xs-12">
@@ -120,10 +117,10 @@
                                                 </script>
                                                 <script>
                                                     $(document).ready(function () {
-                                                       var x = $("#ten").text();
-                                                       if(x === "null"){
-                                                           window.location.href="GioHang.jsp";
-                                                       }
+                                                        var x = $("#ten").text();
+                                                        if (x === "null") {
+                                                            window.location.href = "GioHang.jsp";
+                                                        }
                                                     })
 
                                                 </script>
@@ -156,7 +153,27 @@
                                                             <br>
                                                             <span>  
                                                                 <p style="font-weight: bold; display: inline">Địa chỉ : </p>
-                                                                <%=(kh.getDiaChi() + " - " + kh.getTinh() + " - " + kh.getQuocGia())%> 
+                                                                <%
+                                                                    String diachi = "";
+                                                                    if (kh.getDiaChi() == null) {
+                                                                        diachi += "Chưa có thông tin ";
+                                                                    } else {
+                                                                        diachi += kh.getDiaChi();
+                                                                    }
+                                                                    if (kh.getTinh() == null) {
+                                                                        diachi += "- Chưa có thông tin";
+                                                                    } else {
+                                                                        diachi = diachi + "-" + kh.getTinh();
+                                                                    }
+
+                                                                    if (kh.getQuocGia()== null) {
+                                                                        diachi += " - Chưa có thông tin";
+                                                                    } else {
+                                                                        diachi = diachi + "-" + kh.getQuocGia();
+                                                                    }
+                                                                %>
+                                                                <%=diachi%> 
+
                                                             </span>
                                                             <hr>
                                                             <span>
@@ -187,6 +204,7 @@
                                                                 shipphone: {
                                                                     required: true,
                                                                     minlength: 10,
+                                                                    maxlength: 12,
                                                                     number: true
                                                                 }
                                                             },
@@ -203,6 +221,7 @@
                                                                 shipphone: {
                                                                     required: "Vui lòng nhập số điện thoại",
                                                                     minlength: "Số điện thoại không hợp lệ",
+                                                                    maxlength: "Số điện thoại không hợp lệ",
                                                                     number: "Số điện thoại không hợp lệ"
                                                                 }
                                                             }
@@ -318,9 +337,6 @@
                                                                                                     </div>
                                                                                                     <input type="hidden" id="shipping:fax" name="shipping[fax]" value=""></li>
                                                                                                 <li class="no-display"><input type="hidden" name="shipping[save_in_address_book]" value="1"></li>
-
-
-
                                                                                         </div>
                                                                                     </div>
                                                                                 </li>            

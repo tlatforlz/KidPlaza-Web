@@ -344,6 +344,10 @@
         <servlet-name>ThemTaiKhoanHeThong</servlet-name>
         <servlet-class>Controller.ThemTaiKhoanHeThong</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>XacThuc</servlet-name>
+        <servlet-class>Controller.XacThuc</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TrangChu</servlet-name>
         <url-pattern>/TrangChu</url-pattern>
@@ -687,6 +691,10 @@
     <servlet-mapping>
         <servlet-name>ThemTaiKhoanHeThong</servlet-name>
         <url-pattern>/ThemTaiKhoanHeThong</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>XacThuc</servlet-name>
+        <url-pattern>/XacThuc</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

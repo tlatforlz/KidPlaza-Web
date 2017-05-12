@@ -96,6 +96,12 @@
 
                 }
             %>
+
+            <script>
+                if (${address == "false"}) {
+                    alert("Vui lòng cập nhập địa chỉ trước khi giao hàng");
+                }
+            </script>
             <section class="mt-wrapper">
                 <div class="wrapper">
                     <div class="container col2-left-layout" id="content">
@@ -564,7 +570,7 @@
                                                 </td>                                    
                                             </tr>
                                             <%count++;
-                                                }%>
+                         }%>
                                         </tbody>
                                     </table>
                                     <%}%>

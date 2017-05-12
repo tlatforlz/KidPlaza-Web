@@ -6,7 +6,6 @@
 package Controller;
 
 import DAO.KHACHHANG_DAO;
-import DTO.KHACHHANG;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -16,13 +15,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author tranl
  */
-public class DangNhap extends HttpServlet {
+public class XacThuc extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,33 +35,15 @@ public class DangNhap extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         String email = request.getParameter("username");
-        String password = request.getParameter("password");
+        String token = request.getParameter("token");
+        KHACHHANG_DAO kh_dp = new KHACHHANG_DAO();
+        kh_dp.XacThuc(email, token);
+        request.setAttribute("XacThuc", "true");
+        request.setAttribute("status", "none");
+        request.setAttribute("check", "check");
+        RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+        rd.forward(request, response);
 
-        KHACHHANG_DAO kh_dao = new KHACHHANG_DAO();
-        boolean xacthuc = kh_dao.checkXT(email);
-        String status = "";
-        if (xacthuc == false) {
-            status = "xacthuc";
-            request.setAttribute("status", status);
-            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.forward(request, response);
-        }
-        boolean check = kh_dao.Login(email, password);
-
-        if (check == true) {
-            status = "success";
-            request.setAttribute("status", status);
-
-            HttpSession session = request.getSession();
-            session.setAttribute("Email", email);
-            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-            rd.forward(request, response);
-        } else {
-            status = "wrong";
-            request.setAttribute("status", status);
-            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.forward(request, response);
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,7 +61,7 @@ public class DangNhap extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(DangNhap.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XacThuc.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -99,7 +79,7 @@ public class DangNhap extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(DangNhap.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XacThuc.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

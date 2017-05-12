@@ -21,7 +21,7 @@ public class KHACHHANG {
     private String SoDienThoai;
     private String MatKhau;
     private String  tb_loaikhachhang_MaLoaiKhachHang;
-
+    private int XacThuc;
     public KHACHHANG() {
     }
 
@@ -36,6 +36,16 @@ public class KHACHHANG {
         System.out.println("MatKhau " + MatKhau);
         System.out.println("tb_loaikhachhang_MaLoaiKhachHang " + tb_loaikhachhang_MaLoaiKhachHang);
     }
+
+    public int getXacThuc() {
+        return XacThuc;
+    }
+
+    public void setXacThuc(int XacThuc) {
+        this.XacThuc = XacThuc;
+    }
+    
+    
     public KHACHHANG(int ID, String MaKhachHang, String HoKhachHang, String TenKhachHang, String DiaChi, String Tinh, String QuocGia, String Email, String MatKhau, String SoDienThoai, String tb_loaikhachhang_MaLoaiKhachHang) {
         this.ID = ID;
         this.HoKhachHang = HoKhachHang;
