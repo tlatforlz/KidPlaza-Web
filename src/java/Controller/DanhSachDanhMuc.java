@@ -31,7 +31,9 @@ public class DanhSachDanhMuc extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-          RequestDispatcher rd = request.getRequestDispatcher("web-admin/DanhSachDanhMuc.jsp");
+        String dup = (String) request.getAttribute("dup");
+        request.setAttribute("dup", dup);
+        RequestDispatcher rd = request.getRequestDispatcher("web-admin/DanhSachDanhMuc.jsp");
         rd.forward(request, response);
     }
 

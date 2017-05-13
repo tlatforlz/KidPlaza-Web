@@ -10,6 +10,7 @@ import DAO.DONDATHANG_DAO;
 import DAO.GIOHANG_DAO;
 import DAO.KHACHHANG_DAO;
 import DAO.SANPHAM_DAO;
+import DAO.SendMail;
 import DTO.CHITIETDATHANG;
 import DTO.DONDATHANG;
 import DTO.GIOHANG;
@@ -54,6 +55,7 @@ public class ThemDonHang extends HttpServlet {
         String ordercomment = request.getParameter("ordercomment");
         String method = request.getParameter("method");
         String Email = (String) request.getSession().getAttribute("Email");
+
         KHACHHANG_DAO kh_dp = new KHACHHANG_DAO();
         KHACHHANG kh = kh_dp.getKhachHang(Email);
         GIOHANG_DAO gh_dp = new GIOHANG_DAO();
@@ -85,7 +87,7 @@ public class ThemDonHang extends HttpServlet {
         if (address.equals("none")) {
             // d.c hien tai
             DiaChiGiaoHang = kh.getHoKhachHang() + " - " + kh.getTenKhachHang() + " - " + kh.getDiaChi() + " - " + kh.getTinh() + " - " + kh.getQuocGia() + " - " + kh.getSoDienThoai();
-            if(kh.getDiaChi() == null || kh.getTinh() == null || kh.getQuocGia() == null){
+            if (kh.getDiaChi() == null || kh.getTinh() == null || kh.getQuocGia() == null) {
                 request.setAttribute("address", "false");
                 RequestDispatcher rd = request.getRequestDispatcher("ThongTinTaiKhoan?KhachHang=" + kh.getEmail());
                 rd.forward(request, response);
@@ -101,7 +103,10 @@ public class ThemDonHang extends HttpServlet {
             SANPHAM sp = sp_dp.getSanPham(gh.getMaSanPham());
             TongTien = TongTien + (gh.getSoLuong() * sp.getDonGia());
         }
-
+        if (TongTien == 0) {
+            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+            rd.forward(request, response);
+        }
         DONDATHANG_DAO ddh_dp = new DONDATHANG_DAO();
         DONDATHANG ddh = new DONDATHANG();
         ddh.setMaDonDatHang(kh.getMaKhachHang() + "-" + (ddh_dp.countDDH() + 1));
@@ -137,10 +142,15 @@ public class ThemDonHang extends HttpServlet {
             }
             request.setAttribute("DonDatHang", ddh);
             // request.setAttribute("ThongBao", "success");
-            RequestDispatcher rd = request.getRequestDispatcher("ChiTietDonHang.jsp");
+            String URL = "XemChiTietDonHang?MaDonHang=" + ddh.getMaDonDatHang();
+            String URL2 = "http://localhost:9090/DemoThuongMaiDienTu/" + URL;
+            String MSG = "Cam on ban đa dat hang. \n De xem chi tiet don hang. Nhan vao day : " + URL2;
+          
+            SendMail.sendMail(kh.getEmail(), "Thong bao dat hang thanh cong", MSG);
+            RequestDispatcher rd = request.getRequestDispatcher(URL);
             rd.forward(request, response);
-        } else {
-
+        }
+        if (method.equals("emosys_pay123_standard")) {
             ArrayList<CHITIETDATHANG> list_ct = new ArrayList<CHITIETDATHANG>();
             for (GIOHANG gh : list_gh) {
                 CHITIETDATHANG ct = new CHITIETDATHANG();

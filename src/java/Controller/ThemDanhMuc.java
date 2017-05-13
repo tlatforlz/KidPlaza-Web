@@ -34,11 +34,16 @@ public class ThemDanhMuc extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String TenDanhMuc = request.getParameter("tendanhmuc");
         TenDanhMuc = new String(TenDanhMuc.getBytes("ISO-8859-1"), "UTF-8");
         LOAISANPHAM_DAO loai_sp = new LOAISANPHAM_DAO();
-        loai_sp.InsertDanhMuc(TenDanhMuc);
+        boolean check = loai_sp.checkTenLoai(TenDanhMuc);
+        if (check == false) {
+            loai_sp.InsertDanhMuc(TenDanhMuc);
+        } else {
+            request.setAttribute("dup", "dup");
+        }
         RequestDispatcher rd = request.getRequestDispatcher("DanhSachDanhMuc");
         rd.forward(request, response);
 

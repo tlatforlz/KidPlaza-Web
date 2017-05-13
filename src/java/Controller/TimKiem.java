@@ -37,7 +37,12 @@ public class TimKiem extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String key = request.getParameter("search");
+        String key = "";
+        try{
+            key = request.getParameter("search");
+        }catch (Exception k){
+            
+        }
         String format = new String(key.getBytes("ISO-8859-1"), "UTF-8");
         SANPHAM_DAO sp_dao = new SANPHAM_DAO();
         ArrayList<SANPHAM> list = null;

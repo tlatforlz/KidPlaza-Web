@@ -32,7 +32,30 @@ public class LOAISANPHAM_DAO {
         io.close();
         return check;
     }
+    
+    public boolean checkTenLoai(String TenLoai) throws SQLException{
+        IODatabase io = new IODatabase();
+        io.conn();
+        boolean check = false;
+        String sql = "SELECT COUNT(ID) FROM tb_loaisanpham WHERE TenLoaiSanPham = '" + TenLoai + "'";
+        ResultSet rs = io.getResultSet(sql);
+        if(rs.next()){
+            int count = rs.getInt(1);
+            if(count == 1){
+                check = true;
+            }
+        }
+        io.close();
+        return check;
+    }
 
+    public void setDanhMucCha(String MaLoaiDanhMuc) throws SQLException{
+        IODatabase io = new IODatabase();
+        io.conn();
+        String sql = "UPDATE tb_loaisanpham SET DanhMucCha = " + "''" + " WHERE MaLoaiSanPham = '" + MaLoaiDanhMuc + "'";
+        io.getStatement().executeUpdate(sql);
+        io.close();
+    }
     public void InsertDanhMuc(String TenDanhMuc) throws SQLException {
         IODatabase io = new IODatabase();
         io.conn();
@@ -51,7 +74,7 @@ public class LOAISANPHAM_DAO {
         st.setString(1, MaLoai);
         st.setString(2, TenDanhMuc);
         st.executeUpdate();
-
+        setDanhMucCha(MaLoai);
         io.close();
 
     }

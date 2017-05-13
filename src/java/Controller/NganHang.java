@@ -9,6 +9,7 @@ import DAO.CHITIETDATHANG_DAO;
 import DAO.DONDATHANG_DAO;
 import DAO.GIOHANG_DAO;
 import DAO.KHACHHANG_DAO;
+import DAO.SendMail;
 import DTO.CHITIETDATHANG;
 import DTO.DONDATHANG;
 import DTO.KHACHHANG;
@@ -90,6 +91,11 @@ public class NganHang extends HttpServlet {
                 for (CHITIETDATHANG ct : list_ct) {
                     gh_dp.XoaDonHang(kh.getMaKhachHang(), ct.getTb_sanpham_MaSanPham());
                 }
+                String URL = "XemChiTietDonHang?MaDonHang=" + ddh.getMaDonDatHang();
+                String URL2 = "http://localhost:9090/DemoThuongMaiDienTu/" + URL;
+                String MSG = "Cam on ban đa dat hang. \n De xem chi tiet don hang. Nhan vao day : " + URL2;
+               
+                SendMail.sendMail(kh.getEmail(), "Thong bao dat hang thanh cong", MSG);
             }
             request.setAttribute("DonDatHang", ddh);
             RequestDispatcher rd = request.getRequestDispatcher("ChiTietDonHang.jsp");
@@ -152,4 +158,4 @@ public class NganHang extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-}   
+}

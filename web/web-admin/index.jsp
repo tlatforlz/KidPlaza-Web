@@ -72,8 +72,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                 <strong>Tài Khoản</strong>
                             </li>
 
-                            <li class="m_2"><a href="ThongTinAdmin"><i class="fa fa-user"></i> Thông Tin Cá Nhân</a></li>
-
                             <li class="m_2"><a href="DangXuatAdmin"><i class="fa fa-lock"></i> Đăng Xuất</a></li>	
                         </ul>
                     </li>

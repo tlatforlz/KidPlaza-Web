@@ -90,7 +90,7 @@ public class KHACHHANG_DAO {
         boolean checkLogin = false;
         IODatabase io = new IODatabase();
         io.conn();
-        String sql = "SELECT COUNT(ID) FROM db_cuahangdochoi.tb_khachhang WHERE Email = '" + email + "' and MatKhau = '" + password + "' AND XacThuc = 1";
+        String sql = "SELECT COUNT(ID) FROM db_cuahangdochoi.tb_khachhang WHERE Email = '" + email + "' and MatKhau = '" + password + "' AND XacThuc = 1 AND DaXoa = 0";
         ResultSet rs = io.getResultSet(sql);
         if (rs.next()) {
             int check = rs.getInt(1);
@@ -136,7 +136,7 @@ public class KHACHHANG_DAO {
         ArrayList<KHACHHANG> list = new ArrayList<KHACHHANG>();
         IODatabase io = new IODatabase();
         io.conn();
-        String sql = "SELECT ID FROM tb_khachhang";
+        String sql = "SELECT ID FROM tb_khachhang WHERE XacThuc = 1 AND DaXoa = 0";
         ResultSet rs = io.getResultSet(sql);
         while (rs.next()) {
             int ID = rs.getInt("ID");
@@ -221,7 +221,7 @@ public class KHACHHANG_DAO {
     public void XoaKhachHang(int ID) throws SQLException {
         IODatabase io = new IODatabase();
         io.conn();
-        String sql = "DELETE FROM tb_khachhang WHERE ID = " + ID;
+        String sql = "UPDATE tb_khachhang SET DaXoa = 1 WHERE ID = " + ID;
         io.getStatement().executeUpdate(sql);
         io.close();
     }
